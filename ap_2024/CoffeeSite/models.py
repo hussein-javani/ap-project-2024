@@ -57,38 +57,37 @@ class Products(models.Model) :
 class Orders(models.Model) :
     order_id = models.AutoField(primary_key=True , unique= True)
     username = models.CharField(max_length=255)
-    product = models.CharField(max_length=255)
-    purchase_amount = models.IntegerField()
-    type = models.BooleanField(default= True) # is 1 if the order is take out and 0 if not. 
+    is_takeout = models.BooleanField(default= True) # is 1 if the order is take out and 0 if not. 
 
     
-    def confirm_order(self) :
-        product = self.product
-        quantity = self.purchase_amount
-        if Products.objects.get(name = product).check_storage(quantity) :
-            self.save()
-            Products.objects.get(name = product).update_storage(quantity)
-        else : 
-            raise ValidationError("Sorry, we can't take your order.")
         
+    def calculate_overall_price(self):
+        total_price = sum(
+            item.product.price * item.quantity for item in self.orders_products_set.all()
+        )
+        return total_price
 
+        
 class Orders_Product(models.Model) : 
     id = models.AutoField(primary_key= True)
+    quantity = models.IntegerField()
     product_id = models.ForeignKey(Products , on_delete= models.CASCADE)
     order_id = models.ForeignKey(Orders , on_delete= models.CASCADE)
 
+    def confirm_order(self) :
+        product = self.product_id
+        quantity = self.quantity
+        if Products.objects.get(id = product).check_storage(quantity) :
+            self.save()
+            Products.objects.get(id = product).update_Storage(quantity)
+        else : 
+            raise ValidationError("Sorry, we can't take your order.")
 
     
-class Users_Orders(models.Model) :
-    username = models.ForeignKey(User , on_delete= models.CASCADE , null = True)
-    orderID = models.ForeignKey(Orders , on_delete= models.CASCADE , null = True)
+# class Users_Orders(models.Model) :
+#     username = models.ForeignKey(User , on_delete= models.CASCADE , null = True)
+#     orderID = models.ForeignKey(Orders , on_delete= models.CASCADE , null = True)
 
-    class Meta:
-        unique_together = ('username', 'orderID')
+#     class Meta:
+#         unique_together = ('username', 'orderID')
 
-    def calculate_overall_price(self):
-        total_price = 0
-        user_orders = Users_Orders.objects.filter(username=self.username)
-        for user_order in user_orders:
-            total_price += user_order.order.calculate_overall_price()
-        return total_price
