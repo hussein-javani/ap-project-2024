@@ -1,5 +1,6 @@
 from django import forms
 from django.core.validators import RegexValidator
+from django.core.validators import MinValueValidator
 
 class LoginForm(forms.Form):
     username_or_email = forms.CharField(
@@ -17,7 +18,6 @@ class LoginForm(forms.Form):
             'class' : 'form-control',
             'placeholder' : 'password'
         })
-
     )
 
 class SignupForm(forms.Form):
@@ -46,7 +46,6 @@ class SignupForm(forms.Form):
             'class' : 'form-control',
             'placeholder' : 'username'
         })
-
     )
 
     email = forms.EmailField(
@@ -88,3 +87,106 @@ class SignupForm(forms.Form):
         if password != password_confirm:
             self.add_error('password_confirm', 'passwords do not mach.')
         return cleaned_data
+
+class WarehouseManagementForm(forms.Form):
+    sugar = forms.IntegerField(
+        required = True,
+        validators = [MinValueValidator(0)],
+        widget = forms.NumberInput(attrs = {
+            'class' : 'form-control',
+            'placeholder' : 'sugar (g)'
+        })
+    )
+    raw_coffee = forms.IntegerField(
+        required = True,
+        validators = [MinValueValidator(0)],
+        widget = forms.NumberInput(attrs = {
+            'class' : 'form-control',
+            'placeholder' : 'raw coffee (g)'
+        })
+    )
+    flour = forms.IntegerField(
+        required = True,
+        validators = [MinValueValidator(0)],
+        widget = forms.NumberInput(attrs = {
+            'class' : 'form-control',
+            'placeholder' : 'flour (g)'
+        })
+    )
+    chocolate = forms.IntegerField(
+        required = True,
+        validators = [MinValueValidator(0)],
+        widget = forms.NumberInput(attrs = {
+            'class' : 'form-control',
+            'placeholder' : 'chocolate (g)'
+        })
+    )
+
+class AddProductForm(forms.Form):
+    name = forms.CharField(
+        required = True,
+        max_length = 100,
+        widget = forms.TextInput(attrs = {
+             'class': 'form-control',
+            'placeholder': 'product name'
+        })
+    )
+    sugar = forms.IntegerField(
+        required = True,
+        validators = [MinValueValidator(0)],
+        widget = forms.NumberInput(attrs = {
+             'class': 'form-control',
+            'placeholder': 'sugar (g)'
+        })
+    )
+    raw_coffee = forms.IntegerField(
+        required = True,
+        validators = [MinValueValidator(0)],
+        widget = forms.NumberInput(attrs = {
+             'class': 'form-control',
+            'placeholder': 'raw coffee (g)'
+        })
+    )
+    flour = forms.IntegerField(
+        required = True,
+        validators = [MinValueValidator(0)],
+        widget = forms.NumberInput(attrs = {
+            'class' : 'form-control',
+            'placeholder' : 'flour (g)'
+        })
+    )
+    chocolate = forms.IntegerField(
+        required = True,
+        validators = [MinValueValidator(0)],
+        widget = forms.NumberInput(attrs = {
+            'class' : 'form-control',
+            'placeholder' : 'chocolate (g)'
+        })
+    )
+    price = forms.FloatField(
+        required = True,
+        validators = [MinValueValidator(0)],
+        widget = forms.NumberInput(attrs = {
+           'class': 'form-control',
+            'placeholder': 'price' 
+        })
+    )
+    image = forms.ImageField(
+        required = True,
+        widget = forms.FileInput(attrs = {
+            'class': 'form-control',
+            'placeholder': 'image'
+        })
+    )
+    product_verticals = [
+        ('warm_drink', 'warm drink'),
+        ('cold_drink', 'cold drink'),
+        ('cake', 'cake')
+    ]
+    vertical = forms.ChoiceField(
+        choices = product_verticals,
+        required = True,
+        widget = forms.Select(attrs = {
+            'class' : 'form-control'
+        })
+    )
