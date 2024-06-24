@@ -1,0 +1,37 @@
+{% extends "master.html" %}
+
+{% block title %}
+ورود به حساب
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="form-container">
+    <form action="" method="POST">
+        <h2>ساخت حساب کاربری</h2>
+        <span>نام و نام خانوادگی</span>
+        <input type="text" name="fullname" id="" placeholder="جمشید جمالی">
+        <br>
+        <span>نام کاربری</span>
+        <input type="text" name="username" id="" placeholder="jamshidjamali">
+        <br>
+        <span>ایمیل</span>
+        <input type="email" name="email" id="" placeholder="example@gmail.com">
+        <br>
+        <span>رمز عبور</span>
+        <input type="password" name="password" id="">
+        <br>
+        <span>تکرار رمز عبور</span>
+        <input type="password" name="" id="">
+
+        <div class="submit-container">
+            <a href="">ورود به حساب</a>
+            <input type="submit" value="ثبت نام">
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}

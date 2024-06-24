@@ -11,5 +11,8 @@ def test_home(request):
 
 def test_login(request):
     return render(request, "login.html", )
+
+def test_signup(request):
+    return render(request, "signup.html", )
     
     
