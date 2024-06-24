@@ -3,7 +3,7 @@
 <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Home</title>
+        <title>{% block title %}</title>
         {% load static %}
         <link rel="stylesheet" href="{% static "css/main.css" %}">
 </head>
@@ -44,9 +44,30 @@
         </div>
     </div>
 
-
+    {% block content %}
+    
     <div class="footer">
-        
+        <h2>استارداکس!</h2>
+        <br>
+        <div>
+            <ul>
+                <li><a href="">نوشیدنی‌های گرم</a></li>
+                <li><a href="">نوشیدنی‌های سرد</a></li>
+                <li><a href="">کیک‌ها</a></li>
+            </ul>
+
+            <ul>
+                <li><a href="">ورود/ ثبت نام</a></li>
+                <li><a href="">سبد خرید</a></li>
+                <li><a href="">سوابق خرید</a></li>
+            </ul>
+
+            <div class="spacer"></div>
+
+            <img class="enamad" src="{% static "img/enamad.png"%}" alt="">
+        </div>
+    
     </div>
+
 </body>
 </html>
