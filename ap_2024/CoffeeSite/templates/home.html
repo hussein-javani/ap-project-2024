@@ -5,12 +5,48 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home</title>
         {% load static %}
-        <link rel="stylesheet" href="{% static "main.css" %}">
+        <link rel="stylesheet" href="{% static "css/main.css" %}">
 </head>
 <body>
 
     <div class="navbar">
-        استارداکس
+        <a class="logo" href="{% url "home" %}">
+            <img src="{% static "img/logo.jpeg" %}" alt="">
+            استارداکس!
+        </a>
+        <div class="nav-item">
+            محصولات
+            <img src="{% static "img/icons/down-arrow.svg"%}" alt="">
+            
+                <div class="nav-vertical-box">
+                    <ul>
+                        <li><a href=""> نوشیدنی‌های گرم <img src="{% static "img/icons/left-arrow.svg" %}" alt=""> </a></li>
+                        <li><a href=""> نوشیدنی‌های سرد <img src="{% static "img/icons/left-arrow.svg" %}" alt=""> </a></li>
+                        <li><a href=""> کیک‌ها <img src="{% static "img/icons/left-arrow.svg" %}" alt=""> </a></li>
+                    </ul>
+        
+                </div>
+        </div>
+
+        <div class="spacer"></div>
+        <div href="" class="nav-item">
+            حساب کاربری
+            <img src="{% static "img/icons/down-arrow.svg"%}" alt="">
+
+                <div class="nav-vertical-box">
+                    <ul>
+                        <li><a href=""> سبد خرید <img src="{% static "img/icons/cart.svg" %}" alt=""></a></li>
+                        <li><a href=""> سوابق خرید <img src="{% static "img/icons/history.svg" %}" alt=""></a></li>
+                        <li><a href=""> خروج <img src="{% static "img/icons/exit.svg" %}" alt=""></a></li>
+                    </ul>
+            
+                </div>
+        </div>
+    </div>
+
+
+    <div class="footer">
+        
     </div>
 </body>
 </html>
