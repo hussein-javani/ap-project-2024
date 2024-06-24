@@ -1,0 +1,22 @@
+*{
+    box-sizing: border-box;
+    font-family: "Shabnam";
+    direction: rtl;
+    text-decoration: none;
+    margin: 0;
+    padding: 0;
+}
+html, body{
+    margin: 0;
+}
+
+.navbar{
+    width: 100%;
+    height: 5vw;
+    background-color: rgb(234, 234, 234);
+    border-bottom: 0.5px black solid;
+    display: flex;
+    justify-content:start;
+    align-items: center;
+    padding:  0 5vw;
+}
