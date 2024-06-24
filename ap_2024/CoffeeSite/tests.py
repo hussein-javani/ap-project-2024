@@ -7,6 +7,6 @@ from django.shortcuts import render
 # Create your tests here.
 
 def test_home(request):
-    return render(request, "home.html")
+    return render(request, "home.html", context={"list":range(0,10)})
     
     
