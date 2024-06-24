@@ -8,5 +8,8 @@ from django.shortcuts import render
 
 def test_home(request):
     return render(request, "home.html", context={"list":range(0,10)})
+
+def test_login(request):
+    return render(request, "login.html", )
     
     

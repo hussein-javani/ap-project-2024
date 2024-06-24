@@ -1,0 +1,27 @@
+{% extends "master.html" %}
+
+{% block title %}
+ورود به حساب
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="form-container">
+    <form action="" method="POST">
+        <h2>ورود به حساب کاربری</h2>
+        <span>ایمیل یا نام کاربری</span>
+        <input type="text" name="username" id="" placeholder="example@gmail.com">
+        <br>
+        <span>رمز عبور</span>
+        <input type="password" name="password" id="">
+        <div class="submit-container">
+            <a href="">ثبت نام</a>
+            <input type="submit" value="ورود به حساب">
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
