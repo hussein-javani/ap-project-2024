@@ -107,3 +107,10 @@ img.open{
 .change-container input[type="submit"]{
     width: 10vw;
 }
+
+.add-product-form{
+    width: 100%;
+}
+.add-product-form h2{
+    text-align: right;
+}

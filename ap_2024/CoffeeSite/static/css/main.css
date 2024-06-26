@@ -199,7 +199,7 @@ form{
     width: 40vw;
 }
 
-form input{
+form input, select{
     border: grey 0.1vw solid;
     border-radius: 0.6vw;
     padding: 1vw;
@@ -216,6 +216,7 @@ form input[type="submit"]{
     border: none;
     width: 100%;
     font-size: 1.2vw;
+    cursor: pointer;
 
 }
 form .submit-container{

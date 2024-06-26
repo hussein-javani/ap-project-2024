@@ -17,5 +17,35 @@ selected
 
 
 {% block content %}
-ADD PRODUCT PAGE
+<form action="" class="add-product-form">
+    <h2>مشخصات</h2>
+    <span>نام محصول</span>
+    <input type="text" name="" id="">
+    <span>قیمت(تومان)</span>
+    <input type="number" name="" id="">
+    <br>
+    <span>دسته بندی</span>
+    <select name="" id="">
+        <option value="hot">نوشیدنی گرم</option>
+        <option value="hot">نوشیدنی سرد</option>
+        <option value="hot">کیک</option>
+    </select>
+    <span>تصویر محصول</span>
+    <input type="file" name="" accept="image/*" id="">
+    <br>
+    <h2>مواد اولیه</h2>
+    <span>شکر (گرم)</span>
+    <input type="number">
+    <span>قهوه (گرم)</span>
+    <input type="number">
+    <span>آرد (گرم)</span>
+    <input type="number">
+    <span>شکلات (گرم)</span>
+    <input type="number">
+    <br>
+    <input type="submit" value="افزودن محصول جدید">
+</form>
+<br>
+<br>
+<br>
 {% endblock %}
