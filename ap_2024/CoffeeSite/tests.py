@@ -15,4 +15,16 @@ def test_login(request):
 def test_signup(request):
     return render(request, "signup.html", )
     
+def test_history(request):
+    return render(request, "orderhistory.html", context={"list":range(0,3)})
     
+
+
+
+
+
+
+
+
+
+

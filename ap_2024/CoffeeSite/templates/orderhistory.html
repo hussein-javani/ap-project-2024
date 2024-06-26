@@ -1,0 +1,37 @@
+{% extends "master.html" %}
+
+{% block title %}
+سوابق خرید
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="history-container">
+    <h1>سوابق خرید</h1>
+    {% for i in list %}
+    <div class="record-container">
+        <div class="container-header">
+            <span>شماره سفارش: ۱۲۳۴۵۶</span>
+            <span>تاریخ و ساعت: ۱/۱/۱/ ۱۲:۱۲</span>
+        </div>
+        <div class="container-body">
+            <ul>
+                <li><span>کارامل ماکیاتو</span><div class="spacer"></div><span>۹۸۰۰۰ تومان</span></li>
+                <li><span>کارامل ماکیاتو</span><div class="spacer"></div><span>۹۸۰۰۰ تومان</span></li>
+                <li><span>هزینه ارسال</span><div class="spacer"></div><span>۰ تومان</span></li>
+            </ul>
+    
+            <span>پرداخت شده: ۱۹۰۰۰۰ تومان</span>
+    
+        </div>
+        
+    </div>
+    {% endfor %}
+    
+</div>
+
+
+
+{% endblock %}
