@@ -1,0 +1,55 @@
+.admin-nav{
+    display: flex;
+    align-items: center;
+    padding: 0 3vw;
+    height: 5vw;
+    background-color: rgb(234, 234, 234);
+    border-bottom: rgb(177, 177, 177) solid 0.1vw;
+}
+.admin-nav img{
+    width: 2vw;
+    height: 2vw;
+}
+.admin-nav button{
+    border: none;
+    background-color: transparent;
+    margin-left: 2vw;
+}
+.admin-nav a{
+    display: flex;
+    align-items: center;
+}
+.admin-container{
+    display: flex;
+    height: 100%;
+    width: 100%;
+}
+.admin-container .sidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 17vw;
+    height: 100vh;
+    border-left: 0.1vw grey solid;
+    padding: 2vw;
+
+}
+.sidebar a{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1vw;
+    padding: 1vw;
+    font-size: 1.3vw;
+    margin-bottom: 1vw;
+    transition: background-color 0.2s;
+}
+.sidebar a:hover{
+    background-color: rgb(228, 228, 228);
+}
+a.selected{
+    background-color: rgb(173, 230, 173);
+}
+img.open{
+    display: none;
+}

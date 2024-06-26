@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from django.http import HttpResponse
 from django.template import loader
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 # Create your tests here.
 
@@ -21,6 +21,17 @@ def test_history(request):
 def test_cart(request):
     return render(request, "cart.html", context={"list":range(0,3)})
 
+def test_admin_stats(request):
+    return render(request, "stats.html", context={})
+
+def test_admin_storage(request):
+    return render(request, "storage.html", context={})
+
+def test_admin_addproduct(request):
+    return render(request, "add-product.html", context={})
+
+def test_redirect_stats(request):
+    return redirect("stats",)
 
 
 
