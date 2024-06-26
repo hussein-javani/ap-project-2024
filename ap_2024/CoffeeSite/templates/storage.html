@@ -11,7 +11,101 @@ selected
 {% block addproductSelected %}
 {% endblock %}
 
+{% block title %}
+مدیریت انبار
+{% endblock %}
+
 
 {% block content %}
-MANAGE STORAGE PAGE
+{% load static %}
+<form method="post" action="" class="ingredient-form">
+
+
+    <div class="ingredient-container">
+        <div class="current-container">
+            <div>
+                <h3>شکر</h3> <span>موجودی فعلی: ۱۰۰۰ گرم</span>
+            </div>
+        </div>
+        <div class="change-container">
+            <div>
+                <span>موجودی جدید</span>
+                &nbsp;
+                &nbsp;
+                <input type="number" name="sugar">
+                &nbsp;
+                &nbsp;
+                <span>گرم</span>
+
+            </div>
+            <input type="submit" value="اعمال تغییرات">
+        </div>
+    </div>
+
+    <div class="ingredient-container">
+        <div class="current-container">
+            <div>
+                <h3>آرد</h3> <span>موجودی فعلی: ۱۰۰۰ گرم</span>
+            </div>
+        </div>
+        <div class="change-container">
+            <div>
+                <span>موجودی جدید</span>
+                &nbsp;
+                &nbsp;
+                <input type="number" name="flour">
+                &nbsp;
+                &nbsp;
+                <span>گرم</span>
+
+            </div>
+            <input type="submit" value="اعمال تغییرات">
+        </div>
+    </div>
+
+    <div class="ingredient-container">
+        <div class="current-container">
+            <div>
+                <h3>قهوه</h3> <span>موجودی فعلی: ۱۰۰۰ گرم</span>
+            </div>
+        </div>
+        <div class="change-container">
+            <div>
+                <span>موجودی جدید</span>
+                &nbsp;
+                &nbsp;
+                <input type="number" name="coffee">
+                &nbsp;
+                &nbsp;
+                <span>گرم</span>
+
+            </div>
+            <input type="submit" value="اعمال تغییرات">
+        </div>
+    </div>
+
+    <div class="ingredient-container">
+        <div class="current-container">
+            <div>
+                <h3>شکلات</h3> <span>موجودی فعلی: ۱۰۰۰ گرم</span>
+            </div>
+        </div>
+        <div class="change-container">
+            <div>
+                <span>موجودی جدید</span>
+                &nbsp;
+                &nbsp;
+                <input type="number" name="chocolate">
+                &nbsp;
+                &nbsp;
+                <span>گرم</span>
+
+            </div>
+            <input type="submit" value="اعمال تغییرات">
+        </div>
+    </div>
+
+
+</form>
+
 {% endblock %}
