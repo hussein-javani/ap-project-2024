@@ -18,21 +18,22 @@ class Products(models.Model) :
     name = models.CharField(max_length=255 , unique= True , null= False , blank= False)
 
     price = models.PositiveIntegerField(null= False , blank= False)
-    suger = models.PositiveIntegerField(null= False , blank= False)
-    coffee = models.PositiveIntegerField(null = False , blank=False)  
+    sugar = models.PositiveIntegerField(null= False , blank= False)
+    raw_coffee = models.PositiveIntegerField(null = False , blank=False)  
     flour= models.PositiveIntegerField(null= False , blank= False)
     chocolate = models.PositiveIntegerField(null= False , blank= False)
     vertical = models.CharField(max_length=255 , null= False , blank= False)
+    image = models.ImageField(upload_to='products/', null=True, blank=False)
 
     def check_storage(self , quantity) : 
         stored_suger = Storage.objects.filter(name = "suger").first()
-        stored_coffee = Storage.objects.filter(name = "coffee").first()
+        stored_coffee = Storage.objects.filter(name = "raw_coffee").first()
         stored_flour = Storage.objects.filter(name = "flour").first()
         stored_chocolate = Storage.objects.filter(name = "chocolate").first()
 
     
-        return (stored_suger.amount >= self.suger * quantity  and 
-                stored_coffee.amount >= self.coffee * quantity and 
+        return (stored_suger.amount >= self.sugar * quantity  and 
+                stored_coffee.amount >= self.raw_coffee * quantity and 
                 stored_chocolate.amount>= self.chocolate * quantity and
                 stored_flour.amount >= self.flour * quantity
                 )
@@ -40,12 +41,12 @@ class Products(models.Model) :
     def update_Storage(self , quantity) :
         if self.check_Storage(quantity) :
             storage_sugar = Storage.objects.get(name="sugar")
-            storage_coffee = Storage.objects.get(name="coffee")
+            storage_coffee = Storage.objects.get(name="raw_coffee")
             storage_flour = Storage.objects.get(name="flour")
             storage_chocolate = Storage.objects.get(name="chocolate")
 
-            storage_sugar.amount -= self.suger * quantity
-            storage_coffee.amount -= self.coffee * quantity
+            storage_sugar.amount -= self.sugar * quantity
+            storage_coffee.amount -= self.raw_coffee * quantity
             storage_flour.amount -= self.flour * quantity
             storage_chocolate.amount -= self.chocolate * quantity
 
