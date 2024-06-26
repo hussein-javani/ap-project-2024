@@ -7,4 +7,5 @@ urlpatterns = [
     path('test/login/', tests.test_login, name='login'),
     path('test/signup/', tests.test_signup, name='signup'),
     path('test/history/', tests.test_history, name='history'),
+    path('test/cart/', tests.test_cart, name='history'),
 ]

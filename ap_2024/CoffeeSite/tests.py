@@ -18,6 +18,8 @@ def test_signup(request):
 def test_history(request):
     return render(request, "orderhistory.html", context={"list":range(0,3)})
     
+def test_cart(request):
+    return render(request, "cart.html", context={"list":range(0,3)})
 
 
 

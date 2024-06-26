@@ -7,11 +7,12 @@
     padding: 0;
     color: black;
     list-style: none;
+    text-wrap: nowrap;
 }
 html, body{
     margin: 0;
 }
-a{
+a, button{
     cursor: pointer;
 }
 
@@ -155,7 +156,7 @@ a{
 .product img{
     width: 100%;
     height: 10vw;
-    background-color: red;
+    background-color: grey;
     border-radius: 1vw;
 }
 .product h3{
@@ -240,7 +241,7 @@ form .submit-container a{
     justify-content: center;
 }
 
-.history-container{
+.container{
     padding: 5vw;
 }
 .record-container{
@@ -273,5 +274,76 @@ form .submit-container a{
     text-wrap: nowrap;
     margin: 1vw 0;
 
+}
+
+.container.cart-product .record-container{
+    display: flex;
+    padding: 2vw;
+    align-items: center;
+    justify-content: space-between;
+}
+.container.cart-product .info-container{
+    display: flex;
+}
+.container.container .record-container img{
+    width: 10vw;
+    height: 10vw;
+    border-radius: 1vw;
+    background-color: grey;
+}
+.container.cart-product .record-container .info{
+    padding: 2vw;
+    height: 100%;
+    font-size: 1.5vw;
+}
+.container.cart-product .record-container .info span{
+    color: grey;
+    font-size: 1.7vw;
+}
+.container.cart-product .record-container .count-container{
+    text-align: left;
+}
+.container.cart-product .record-container input{
+    border: 0.2vw black solid;
+    padding: 0.7vw;
+    width: 5vw;
+    border-radius: 0.5vw;
+}
+.container.cart-product .record-container button{
+    border: none;
+    background-color: rgb(255, 86, 86);
+    color: white;
+    padding: 1vw;
+    width: 5vw;
+    border-radius: 0.5vw;
+    margin-top: 0.5vw;
+    font-size: 1vw;
+}
+.delivery-container{
+    padding: 3vw 0;
+    border-bottom: black solid 0.2vw;
+}
+.total-price{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 2vw;
+}
+.buttons-container{
+    text-align: left;
+}
+.buttons-container button{
+    padding: 1vw 2vw;
+    border-radius: 1vw;
+    font-size: 1.3vw;
+    border: none;
+    color: white;
+    margin-right: 1vw;
+}
+.buttons-container button.finalize{
+    background-color: rgb(6, 105, 6);
+}
+.buttons-container button.cancel{
+    background-color: rgb(255, 86, 86);
 }
 
