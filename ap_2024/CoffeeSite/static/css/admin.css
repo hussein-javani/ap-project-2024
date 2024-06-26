@@ -114,3 +114,23 @@ img.open{
 .add-product-form h2{
     text-align: right;
 }
+
+form.stat-form{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 1vw;
+}
+form.stat-form input[type="submit"]{
+    width: 10vw;
+}
+
+.chart-canvas{
+    width: 100%;
+    padding: 2vw;
+    background-color: rgb(222, 222, 222);
+    border-radius: 1vw;
+    border: grey solid 0.1vw;
+}
