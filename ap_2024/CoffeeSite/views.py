@@ -61,3 +61,5 @@ def signup_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')  # Redirect to the homepage or any other page after logout
+
+
