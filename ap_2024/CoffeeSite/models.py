@@ -3,6 +3,7 @@ from django.core import validators
 from django.contrib.auth.models import User
 from django.contrib import admin
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 
 class Storage(models.Model):
     id = models.AutoField(primary_key= True)
@@ -63,7 +64,7 @@ class Orders(models.Model) :
     order_id = models.AutoField(primary_key=True , unique= True)
     username = models.CharField(max_length=255)
     is_takeout = models.BooleanField(default= True) # is 1 if the order is take out and 0 if not. 
-    date = models.DateField(auto_created=True , default= "01/01")
+    date = models.DateField(auto_created=True , default= timezone.now)
     
         
     def calculate_overall_price(self):
