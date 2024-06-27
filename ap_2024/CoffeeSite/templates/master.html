@@ -14,6 +14,7 @@
             <img src="{% static "img/logo.jpeg" %}" alt="">
             استارداکس!
         </a>
+        {% if user.is_authenticated %}
         <div class="nav-item">
             محصولات
             <img src="{% static "img/icons/down-arrow.svg"%}" alt="">
@@ -37,11 +38,12 @@
                     <ul>
                         <li><a href=""> سبد خرید <img src="{% static "img/icons/cart.svg" %}" alt=""></a></li>
                         <li><a href=""> سوابق خرید <img src="{% static "img/icons/history.svg" %}" alt=""></a></li>
-                        <li><a href=""> خروج <img src="{% static "img/icons/exit.svg" %}" alt=""></a></li>
+                        <li><a href="{% url "logout" %}"> خروج <img src="{% static "img/icons/exit.svg" %}" alt=""></a></li>
                     </ul>
             
                 </div>
         </div>
+        {% endif %}
     </div>
 
     {% block content %}{% endblock %}

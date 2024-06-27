@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate , logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.views import View
@@ -58,3 +58,6 @@ def signup_view(request):
     return render(request, 'signup.html', {'form': form})
 
 
+def logout_view(request):
+    logout(request)
+    return redirect('login')  # Redirect to the homepage or any other page after logout

@@ -19,6 +19,7 @@ urlpatterns = [
     path('test/home/', tests.test_home,),
     path('test/', tests.test_home, name='home'),
     path('login/', views.login_view, name='login'), # ok
+    path('logout/', views.logout_view, name='logout'), # ok
     path('signup/', views.signup_view, name='signup'), # ok
     path('test/history/', tests.test_history, name='history'),
     path('test/cart/', tests.test_cart, name='cart'),
