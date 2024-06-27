@@ -16,8 +16,7 @@ from . import tests
 # ]
 
 urlpatterns = [
-    path('test/home/', tests.test_home,),
-    path('test/', tests.test_home, name='home'),
+    path('', views.home_view, name='home'), #ok
     path('login/', views.login_view, name='login'), # ok
     path('logout/', views.logout_view, name='logout'), # ok
     path('signup/', views.signup_view, name='signup'), # ok

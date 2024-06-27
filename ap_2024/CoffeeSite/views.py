@@ -9,6 +9,31 @@ from .forms import *
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 
+
+def home_view(request):
+    if request.method == "GET":
+        if not request.GET.get("vertical"):
+            # TODO: getting most ordered products
+
+            products = Products.objects.all()[0:10]
+            for prod in products:
+                prod.image = str(prod.image).replace("CoffeeSite/","")
+            
+            return render(request, "home.html", {"title":"محصولات پر فروش", "products":products, "slideshow":True })
+        
+        if request.GET.get("vertical"):
+            vertical = request.GET.get("vertical")
+            products = Products.objects.filter(vertical=vertical)
+            for prod in products:
+                prod.image = str(prod.image).replace("CoffeeSite/","")
+            
+            vertical_names = {"warm_drink": "نوشیدنی‌های گرم", "cold_drink":"نوشیدنی‌های سرد", "cake":"کیک‌ها"}
+
+            return render(request, "home.html", {"title":vertical_names[vertical] , "products":products, "slideshow":False })
+            
+
+
+
 def login_view(request):
     if request.method == 'POST':
         form = LoginForm(request.POST)

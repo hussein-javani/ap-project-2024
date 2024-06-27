@@ -10,6 +10,8 @@
 
 {% load static %}
 
+{% if slideshow %}
+
   <link rel="stylesheet" href="{% static "css/slideshow.css" %}">
 
   
@@ -44,23 +46,25 @@
     <span class="dot" onclick="currentSlide(3)"></span> 
   </div>
 
+  {% endif %}
+
   <br>
 
   <div class="product-container">
-    <h2>محصولات پر فروش امروز</h2>
+    <h2>{{ title }}</h2>
 
-    {% for i in list %}
+    {% for product in products %}
 
     <div class="product">
-      <img src="" alt="">
+      <img src="{{ product.image }}" alt="">
       <br>
-      <h3>کارامل ماکیاتو</h3>
+      <h3>{{ product.name }}</h3>
       <div class="product-bottom">
         <div class="price-container">
-          <span class="price">۹۸</span>
-          <span>هزار تومان</span>
+          <span class="price">{{ product.price }}</span>
+          <span> تومان</span>
         </div>
-        <button onclick="addtocart()">+</button>
+        <button onclick="addtocart('{{product.id}}')">+</button>
       </div>
     </div>
 
