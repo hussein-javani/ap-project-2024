@@ -4,7 +4,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.views import View
-from .forms import SignUpForm, LoginForm
+from .forms import SignupForm, LoginForm
 
 class LoginView(View):
     def get(self, request):
@@ -21,11 +21,11 @@ class LoginView(View):
 
 class SignUpView(View):
     def get(self, request):
-        form = SignUpForm()
+        form = SignupForm()
         return render(request, 'signup.html', {'form': form})
 
     def post(self, request):
-        form = SignUpForm(request.POST)
+        form = SignupForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password1'])
