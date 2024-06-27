@@ -3,9 +3,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate , logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from .models import *
 from django.views import View
-from .forms import SignupForm, LoginForm
+from .forms import *
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 def login_view(request):
     if request.method == 'POST':
@@ -16,12 +18,18 @@ def login_view(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request, user)
-                return redirect('home')
+                # redirect to admind page if user is admin
+                if user.is_staff or user.is_superuser:
+                    return redirect("stats")
+                else:
+                    #redirect to home page if user is not admin
+                    return redirect('home')
             else:
                 # return HttpResponse("User not valid", status=401)
                 return render( request, "login.html", { "form":form, "error" : "نام کاربری یا رمز عبور اشتباه است"})
                 
     else:
+        # if request is GET, just show the empty form
         form = LoginForm()
     
     return render(request, 'login.html', {'form': form, "error":""})
@@ -47,9 +55,8 @@ def signup_view(request):
 
             # Log the user in
             login(request, user)
-
-            # Redirect to a success page
-            return redirect('home')  # Redirect to your home page or any other page
+           
+            return redirect('home')  # Redirect to your home page
         else:
             return render(request, "signup.html", {"form":form, "error":"اطلاعات وارد شده معتبر نمی‌باشد"})
     else:
@@ -60,6 +67,52 @@ def signup_view(request):
 
 def logout_view(request):
     logout(request)
-    return redirect('login')  # Redirect to the homepage or any other page after logout
+    return redirect('login')  # Redirect to the homepage
+
+@login_required
+def storage_view(request) : 
+    if request.method == 'POST':
+        form = WarehouseManagementForm(request.POST)
+        if form.is_valid():
+            # Get the form data
+            sugar_amount = form.cleaned_data['sugar']
+            raw_coffee_amount = form.cleaned_data['raw_coffee']
+            flour_amount = form.cleaned_data['flour']
+            chocolate_amount = form.cleaned_data['chocolate']
+
+            # Update the Storage records
+            if sugar_amount or sugar_amount==0:
+                Storage.objects.filter(name='sugar').update(amount=int(sugar_amount))
+            if raw_coffee_amount or raw_coffee_amount == 0:
+                Storage.objects.filter(name='raw_coffee').update(amount=int(raw_coffee_amount))
+            if flour_amount or flour_amount == 0: 
+                Storage.objects.filter(name='flour').update(amount=int(flour_amount))
+            if chocolate_amount or chocolate_amount==0:
+                Storage.objects.filter(name='chocolate').update(amount=int(chocolate_amount))
+
+            form = WarehouseManagementForm()
+            sugar_amount = Storage.objects.get(name='sugar').amount
+            raw_coffee_amount = Storage.objects.get(name='raw_coffee').amount
+            flour_amount = Storage.objects.get(name='flour').amount
+            chocolate_amount = Storage.objects.get(name='chocolate').amount
+            return render(request , "storage.html" , {'form' : form, "sugar":sugar_amount, "chocolate":chocolate_amount, "raw_coffee":raw_coffee_amount, "flour":flour_amount, "message":"تغییرات با موفقیت اعمال شد.", "error":""})
+        else:
+            form = WarehouseManagementForm()
+            sugar_amount = Storage.objects.get(name='sugar').amount
+            raw_coffee_amount = Storage.objects.get(name='raw_coffee').amount
+            flour_amount = Storage.objects.get(name='flour').amount
+            chocolate_amount = Storage.objects.get(name='chocolate').amount
+            return render(request , "storage.html" , {'form' : form, "sugar":sugar_amount, "chocolate":chocolate_amount, "raw_coffee":raw_coffee_amount, "flour":flour_amount, "message":"", "error":"اطلاعات ارسال شده معتبر نمی باشد."})  # Redirect to a success page or the home page
+    
+            
+    else:
+        form = WarehouseManagementForm()
+        sugar_amount = Storage.objects.get(name='sugar').amount
+        raw_coffee_amount = Storage.objects.get(name='raw_coffee').amount
+        flour_amount = Storage.objects.get(name='flour').amount
+        chocolate_amount = Storage.objects.get(name='chocolate').amount
+        return render(request , "storage.html" , {'form' : form, "sugar":sugar_amount, "chocolate":chocolate_amount, "raw_coffee":raw_coffee_amount, "flour":flour_amount, "message":"", "error":""})  # Redirect to a success page or the home page
+    
 
 
+        

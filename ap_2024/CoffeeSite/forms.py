@@ -81,7 +81,7 @@ class SignupForm(forms.Form):
 
 class WarehouseManagementForm(forms.Form):
     sugar = forms.IntegerField(
-        required = True,
+        required = False,
         validators = [MinValueValidator(0)],
         widget = forms.NumberInput(attrs = {
             'class' : 'form-control',
@@ -89,7 +89,7 @@ class WarehouseManagementForm(forms.Form):
         })
     )
     raw_coffee = forms.IntegerField(
-        required = True,
+        required = False,
         validators = [MinValueValidator(0)],
         widget = forms.NumberInput(attrs = {
             'class' : 'form-control',
@@ -97,7 +97,7 @@ class WarehouseManagementForm(forms.Form):
         })
     )
     flour = forms.IntegerField(
-        required = True,
+        required = False,
         validators = [MinValueValidator(0)],
         widget = forms.NumberInput(attrs = {
             'class' : 'form-control',
@@ -105,7 +105,7 @@ class WarehouseManagementForm(forms.Form):
         })
     )
     chocolate = forms.IntegerField(
-        required = True,
+        required = False,
         validators = [MinValueValidator(0)],
         widget = forms.NumberInput(attrs = {
             'class' : 'form-control',

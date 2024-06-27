@@ -18,13 +18,26 @@ selected
 
 {% block content %}
 {% load static %}
-<form method="post" action="" class="ingredient-form">
+<form method="POST" class="ingredient-form">
+    {% if error %}
+    <div class="error">
+        {{ error }}
+    </div>
+    {% endif %}
+
+
+    {% if message %}
+    <div class="message">
+        {{message}}
+    </div>
+    {% endif %}
+    {% csrf_token %}
 
 
     <div class="ingredient-container">
         <div class="current-container">
             <div>
-                <h3>شکر</h3> <span>موجودی فعلی: ۱۰۰۰ گرم</span>
+                <h3>شکر</h3> <span>موجودی فعلی: {{ sugar }} گرم</span>
             </div>
         </div>
         <div class="change-container">
@@ -32,7 +45,8 @@ selected
                 <span>موجودی جدید</span>
                 &nbsp;
                 &nbsp;
-                <input type="number" name="sugar">
+                {{ form.sugar }}
+                <!-- <input type="number" name="sugar"> -->
                 &nbsp;
                 &nbsp;
                 <span>گرم</span>
@@ -45,7 +59,7 @@ selected
     <div class="ingredient-container">
         <div class="current-container">
             <div>
-                <h3>آرد</h3> <span>موجودی فعلی: ۱۰۰۰ گرم</span>
+                <h3>آرد</h3> <span>موجودی فعلی: {{flour}} گرم</span>
             </div>
         </div>
         <div class="change-container">
@@ -53,7 +67,8 @@ selected
                 <span>موجودی جدید</span>
                 &nbsp;
                 &nbsp;
-                <input type="number" name="flour">
+                {{form.flour}}
+                <!-- <input type="number" name="flour"> -->
                 &nbsp;
                 &nbsp;
                 <span>گرم</span>
@@ -66,7 +81,7 @@ selected
     <div class="ingredient-container">
         <div class="current-container">
             <div>
-                <h3>قهوه</h3> <span>موجودی فعلی: ۱۰۰۰ گرم</span>
+                <h3>قهوه</h3> <span>موجودی فعلی: {{raw_coffee}} گرم</span>
             </div>
         </div>
         <div class="change-container">
@@ -74,7 +89,8 @@ selected
                 <span>موجودی جدید</span>
                 &nbsp;
                 &nbsp;
-                <input type="number" name="coffee">
+                {{form.raw_coffee}}
+                <!-- <input type="number" name="coffee"> -->
                 &nbsp;
                 &nbsp;
                 <span>گرم</span>
@@ -87,7 +103,7 @@ selected
     <div class="ingredient-container">
         <div class="current-container">
             <div>
-                <h3>شکلات</h3> <span>موجودی فعلی: ۱۰۰۰ گرم</span>
+                <h3>شکلات</h3> <span>موجودی فعلی: {{chocolate}} گرم</span>
             </div>
         </div>
         <div class="change-container">
@@ -95,7 +111,8 @@ selected
                 <span>موجودی جدید</span>
                 &nbsp;
                 &nbsp;
-                <input type="number" name="chocolate">
+                {{form.chocolate}}
+                <!-- <input type="number" name="chocolate"> -->
                 &nbsp;
                 &nbsp;
                 <span>گرم</span>

@@ -199,7 +199,7 @@ form{
     width: 40vw;
 }
 
-form .error{
+form .error, form .message{
     color: black;
     width: 100%;
     border: red solid 0.1vw;
@@ -207,6 +207,11 @@ form .error{
     padding: 0.5vw;
     border-radius: 0.5vw;
     margin:  1vw 0;
+}
+form .message{
+    background-color: rgb(141, 227, 141);
+    color: green;
+    border-color: green;
 }
 
 form input, select{
