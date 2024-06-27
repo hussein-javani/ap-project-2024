@@ -1,9 +1,6 @@
 from django.contrib import admin
-from .models import Storage
+from .models import *
 
 admin.site.register(Storage, )
+admin.site.register(Products, )
 
-
-
-
-# Register your models here.

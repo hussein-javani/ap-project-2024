@@ -115,4 +115,27 @@ def storage_view(request) :
     
 
 
-        
+def add_product_view(request) : 
+    if request.method == 'POST':
+        form = AddProductForm(request.POST, request.FILES)
+        if form.is_valid():
+            # Create a new Product instance
+            product = Products(
+                name=form.cleaned_data['name'],
+                sugar=form.cleaned_data['sugar'],
+                raw_coffee=form.cleaned_data['raw_coffee'],
+                flour=form.cleaned_data['flour'],
+                chocolate=form.cleaned_data['chocolate'],
+                price=form.cleaned_data['price'],
+                image=form.cleaned_data['image'],
+                vertical=form.cleaned_data['vertical']
+            )
+            product.save()
+            form = AddProductForm()
+            return render(request , "add-product.html" , {"form" : form , "message" : "تغییرات با موفقیت اعمال شد" , "error" : ""})
+        else : 
+            form = AddProductForm()
+            return render(request , "add-product.html" , {"form" : form , "message" : "" , "error" : "اطلاعات وارد شده معتبر نمی باشد."})
+    else:
+        form = AddProductForm()
+        return render(request , "add-product.html" , {"form" : form , "message" : "" , "error" : ""})

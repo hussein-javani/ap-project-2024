@@ -17,31 +17,53 @@ selected
 
 
 {% block content %}
-<form action="" class="add-product-form">
+<form method="POST" enctype="multipart/form-data" action="" class="add-product-form">
+    {% if error %}
+    <div class="error">
+        {{ error }}
+    </div>
+    {% endif %}
+
+
+    {% if message %}
+    <div class="message">
+        {{message}}
+    </div>
+    {% endif %}
+    {% csrf_token %}
     <h2>مشخصات</h2>
     <span>نام محصول</span>
-    <input type="text" name="" id="">
+    <!-- <input type="text" name="" id=""> -->
+    {{ form.name }}
     <span>قیمت(تومان)</span>
-    <input type="number" name="" id="">
+    <!-- <input type="number" name="" id=""> -->
+     {{ form.price }}
     <br>
     <span>دسته بندی</span>
-    <select name="" id="">
+    <!-- <select name="" id="">
         <option value="hot">نوشیدنی گرم</option>
         <option value="hot">نوشیدنی سرد</option>
         <option value="hot">کیک</option>
-    </select>
+    </select> -->
+    {{ form.vertical }}
+
     <span>تصویر محصول</span>
-    <input type="file" name="" accept="image/*" id="">
+    <!-- <input type="file" name="" accept="image/*" id=""> -->
+    {{ form.image }}
     <br>
     <h2>مواد اولیه</h2>
     <span>شکر (گرم)</span>
-    <input type="number">
+    <!-- <input type="number"> -->
+     {{ form.sugar }}
     <span>قهوه (گرم)</span>
-    <input type="number">
+    <!-- <input type="number"> -->
+     {{form.raw_coffee}}
     <span>آرد (گرم)</span>
-    <input type="number">
+    <!-- <input type="number"> -->
+     {{form.flour}}
     <span>شکلات (گرم)</span>
-    <input type="number">
+    <!-- <input type="number"> -->
+     {{form.chocolate}}
     <br>
     <input type="submit" value="افزودن محصول جدید">
 </form>

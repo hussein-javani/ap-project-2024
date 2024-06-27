@@ -25,6 +25,6 @@ urlpatterns = [
     path('test/cart/', tests.test_cart, name='cart'),
     path('test/admin/stats', tests.test_admin_stats, name='stats'),
     path('admin/storage', views.storage_view, name='storage'), # ok
-    path('test/admin/addproduct', tests.test_admin_addproduct, name='addproduct'),
+    path('admin/addproduct', views.add_product_view, name='addproduct'), #ok
     path('test/admin/', tests.test_redirect_stats, name="redirect-stats"),
 ]

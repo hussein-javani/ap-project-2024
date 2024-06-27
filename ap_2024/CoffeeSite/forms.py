@@ -119,15 +119,14 @@ class AddProductForm(forms.Form):
         max_length = 100,
         widget = forms.TextInput(attrs = {
              'class': 'form-control',
-            'placeholder': 'product name'
         })
     )
     sugar = forms.IntegerField(
         required = True,
         validators = [MinValueValidator(0)],
         widget = forms.NumberInput(attrs = {
-             'class': 'form-control',
-            'placeholder': 'sugar (g)'
+            'class': 'form-control',
+
         })
     )
     raw_coffee = forms.IntegerField(
@@ -135,7 +134,6 @@ class AddProductForm(forms.Form):
         validators = [MinValueValidator(0)],
         widget = forms.NumberInput(attrs = {
              'class': 'form-control',
-            'placeholder': 'raw coffee (g)'
         })
     )
     flour = forms.IntegerField(
@@ -143,7 +141,6 @@ class AddProductForm(forms.Form):
         validators = [MinValueValidator(0)],
         widget = forms.NumberInput(attrs = {
             'class' : 'form-control',
-            'placeholder' : 'flour (g)'
         })
     )
     chocolate = forms.IntegerField(
@@ -151,33 +148,29 @@ class AddProductForm(forms.Form):
         validators = [MinValueValidator(0)],
         widget = forms.NumberInput(attrs = {
             'class' : 'form-control',
-            'placeholder' : 'chocolate (g)'
         })
     )
-    price = forms.FloatField(
+    price = forms.IntegerField(
         required = True,
         validators = [MinValueValidator(0)],
         widget = forms.NumberInput(attrs = {
            'class': 'form-control',
-            'placeholder': 'price' 
         })
     )
     image = forms.ImageField(
         required = True,
         widget = forms.FileInput(attrs = {
             'class': 'form-control',
-            'placeholder': 'image'
         })
     )
     product_verticals = [
-        ('warm_drink', 'warm drink'),
-        ('cold_drink', 'cold drink'),
-        ('cake', 'cake')
+        ('warm_drink', 'نوشیدنی گرم'),
+        ('cold_drink', 'نوشیدنی سرد'),
+        ('cake', 'کیک')
     ]
     vertical = forms.ChoiceField(
         choices = product_verticals,
         required = True,
         widget = forms.Select(attrs = {
-            'class' : 'form-control'
         })
     )
