@@ -5,31 +5,56 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.views import View
 from .forms import SignupForm, LoginForm
+from django.http import HttpResponse
 
-class LoginView(View):
-    def get(self, request):
-        form = LoginForm()
-        return render(request, 'login.html', {'form': form})
-
-    def post(self, request):
-        form = LoginForm(data=request.POST)
+def login_view(request):
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
         if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect('home')  
-        return render(request, 'login.html', {'form': form})
+            username = form.cleaned_data.get('username_or_email')
+            password = form.cleaned_data.get('password')
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('home')
+            else:
+                # return HttpResponse("User not valid", status=401)
+                return render( request, "login.html", { "form":form, "error" : "نام کاربری یا رمز عبور اشتباه است"})
+                
+    else:
+        form = LoginForm()
+    
+    return render(request, 'login.html', {'form': form, "error":""})
 
-class SignUpView(View):
-    def get(self, request):
-        form = SignupForm()
-        return render(request, 'signup.html', {'form': form})
-
-    def post(self, request):
+def signup_view(request):
+    if request.method == 'POST':
         form = SignupForm(request.POST)
         if form.is_valid():
-            user = form.save(commit=False)
-            user.set_password(form.cleaned_data['password1'])
+            # Extract cleaned data
+            full_name = form.cleaned_data.get('full_name')
+            username = form.cleaned_data.get('username')
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password')
+
+            # Create a new user
+            user = User.objects.create_user(
+                username=username,
+                email=email,
+                password=password
+            )
+            user.full_name = full_name
             user.save()
+
+            # Log the user in
             login(request, user)
-            return redirect('home')  
-        return render(request, 'signup.html', {'form': form})
+
+            # Redirect to a success page
+            return redirect('home')  # Redirect to your home page or any other page
+        else:
+            return render(request, "signup.html", {"form":form, "error":"اطلاعات وارد شده معتبر نمی‌باشد"})
+    else:
+        form = SignupForm()
+    
+    return render(request, 'signup.html', {'form': form})
+
+

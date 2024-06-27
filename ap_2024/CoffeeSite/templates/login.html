@@ -10,12 +10,21 @@
 
 <div class="form-container">
     <form action="" method="POST">
+        {% csrf_token %}
+        <!-- {{ form.as_p }} -->
         <h2>ورود به حساب کاربری</h2>
+        {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+        {% endif %}
         <span>ایمیل یا نام کاربری</span>
-        <input type="text" name="username" id="" placeholder="example@gmail.com">
+        <!-- <input type="text" name="username" id="" placeholder="example@gmail.com"> -->
+         {{ form.username_or_email }}
         <br>
         <span>رمز عبور</span>
-        <input type="password" name="password" id="">
+        <!-- <input type="password" name="password" id=""> -->
+         {{ form.password }}
         <div class="submit-container">
             <a href="">ثبت نام</a>
             <input type="submit" value="ورود به حساب">

@@ -10,21 +10,32 @@
 
 <div class="form-container">
     <form action="" method="POST">
+        {% csrf_token %}
         <h2>ساخت حساب کاربری</h2>
+        {% if error %}
+        <div class="error">
+            {{ error }}
+        </div>
+        {% endif %}
         <span>نام و نام خانوادگی</span>
-        <input type="text" name="fullname" id="" placeholder="جمشید جمالی">
+        <!-- <input type="text" name="fullname" id="" placeholder="جمشید جمالی"> -->
+        {{ form.full_name }}
         <br>
         <span>نام کاربری</span>
-        <input type="text" name="username" id="" placeholder="jamshidjamali">
+        <!-- <input type="text" name="username" id="" placeholder="jamshidjamali"> -->
+         {{ form.username }}
         <br>
         <span>ایمیل</span>
-        <input type="email" name="email" id="" placeholder="example@gmail.com">
+        <!-- <input type="email" name="email" id="" placeholder="example@gmail.com"> -->
+         {{ form.email }}
         <br>
         <span>رمز عبور</span>
-        <input type="password" name="password" id="">
+        <!-- <input type="password" name="password" id=""> -->
+         {{ form.password }}
         <br>
         <span>تکرار رمز عبور</span>
-        <input type="password" name="" id="">
+        <!-- <input type="password" name="" id=""> -->
+         {{ form.password_confirm }}
 
         <div class="submit-container">
             <a href="">ورود به حساب</a>

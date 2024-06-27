@@ -8,7 +8,7 @@ class LoginForm(forms.Form):
         required = True,
         widget = forms.TextInput(attrs = {
             'class' : 'form-control',
-            'placeholder' : 'username or email'
+            'placeholder' : 'jamshid@gmail.com  یا  jamshid_jamali'
         })
     )
     
@@ -21,30 +21,21 @@ class LoginForm(forms.Form):
     )
 
 class SignupForm(forms.Form):
-    first_name = forms.CharField(
+    full_name = forms.CharField(
         max_length = 100,
         required = True,
         widget = forms.TextInput(attrs = {
-            'class' : 'form-control',
-            'placeholder' : 'first name'
+            'placeholder' : 'جمشید جمالی'
         })
     )
     
-    last_name = forms.CharField(
-        max_length = 100,
-        required = True,
-        widget = forms.TextInput(attrs = {
-            'class' : 'form-control',
-            'placeholder' : 'last name'
-        })
-    )
 
     username = forms.CharField(
         max_length = 100,
         required = True,
         widget = forms.TextInput(attrs = {
             'class' : 'form-control',
-            'placeholder' : 'username'
+            'placeholder' : 'jamshidjamali'
         })
     )
 
@@ -52,7 +43,7 @@ class SignupForm(forms.Form):
         required = True,
         widget = forms.EmailInput(attrs = {
             'class' : 'form-control',
-            'placeholder' : 'email'
+            'placeholder' : 'jamshid@gmail.com'
         })
     )
 

@@ -199,6 +199,16 @@ form{
     width: 40vw;
 }
 
+form .error{
+    color: black;
+    width: 100%;
+    border: red solid 0.1vw;
+    background-color: rgb(240, 177, 177);
+    padding: 0.5vw;
+    border-radius: 0.5vw;
+    margin:  1vw 0;
+}
+
 form input, select{
     border: grey 0.1vw solid;
     border-radius: 0.6vw;
