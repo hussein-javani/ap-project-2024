@@ -27,7 +27,7 @@ class Products(models.Model) :
         ('cold_drink', 'نوشیدنی سرد'),
         ('cake', 'کیک')
     ])
-    image = models.URLField(null= False , blank= False , default= None)
+    image = models.ImageField(null= False , blank= False , default= None)
 
     def check_storage(self , quantity) : 
         stored_suger = Storage.objects.filter(name = "suger").first()
