@@ -6,10 +6,10 @@ from django.contrib.auth.models import User
 from .models import *
 from django.views import View
 from .forms import *
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 
-
+@login_required(login_url="login")
 def home_view(request):
     if request.method == "GET":
         if not request.GET.get("vertical"):
@@ -30,7 +30,7 @@ def home_view(request):
             vertical_names = {"warm_drink": "نوشیدنی‌های گرم", "cold_drink":"نوشیدنی‌های سرد", "cake":"کیک‌ها"}
 
             return render(request, "home.html", {"title":vertical_names[vertical] , "products":products, "slideshow":False })
-            
+        
 
 
 
@@ -89,12 +89,12 @@ def signup_view(request):
     
     return render(request, 'signup.html', {'form': form})
 
-
+@login_required(login_url="login")
 def logout_view(request):
     logout(request)
     return redirect('login')  # Redirect to the homepage
 
-@login_required
+@login_required(login_url="login")
 def storage_view(request) : 
     if request.method == 'POST':
         form = WarehouseManagementForm(request.POST)
@@ -139,7 +139,7 @@ def storage_view(request) :
         return render(request , "storage.html" , {'form' : form, "sugar":sugar_amount, "chocolate":chocolate_amount, "raw_coffee":raw_coffee_amount, "flour":flour_amount, "message":"", "error":""})  # Redirect to a success page or the home page
     
 
-
+@login_required(login_url="login")
 def add_product_view(request) : 
     if request.method == 'POST':
         form = AddProductForm(request.POST, request.FILES)
@@ -164,3 +164,41 @@ def add_product_view(request) :
     else:
         form = AddProductForm()
         return render(request , "add-product.html" , {"form" : form , "message" : "" , "error" : ""})
+
+
+def cart_view(request):
+    
+    open_orders = Orders.objects.filter(username=request.user.username, open=True).all()
+    items = Orders_Product.objects.filter(order_id__in=open_orders)
+    
+    total_price = 0
+    for item in items:
+        item.product_id.image = str(item.product_id.image).replace("CoffeeSite", "")
+        total_price += item.product_id.price
+    
+    return render(request, "cart.html", {"items":items, "total":total_price})
+
+
+def add_to_cart_view(request):
+    if request.method != "POST":
+        return HttpResponseBadRequest("Bad request")
+    
+    #check if user has open order:
+    try:
+        open_order = Orders.objects.get(username=request.user.username, open=True)
+    except:
+        open_order = Orders(username=request.user.username)
+        open_order.save()
+    
+    product = Products.objects.get(id=request.POST.get("product_id"))
+
+    order_product =  Orders_Product(
+        order_id = open_order,
+        product_id = product,
+        quantity = 1,
+    )
+    order_product.save()
+
+    return redirect("cart")
+    
+

@@ -55,7 +55,8 @@
 
     {% for product in products %}
 
-    <form class="product" method="POST" action="">
+    <form class="product" method="POST" action="{% url "add-to-cart"%}" >
+      {% csrf_token %}
       <img src="{{ product.image }}" alt="">
       <br>
       <h3>{{ product.name }}</h3>

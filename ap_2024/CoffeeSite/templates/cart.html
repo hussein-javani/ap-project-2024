@@ -11,14 +11,14 @@
 
 <div class="container cart-product">
     <h1>سبد خرید خرید</h1>
-    {% for i in list %}
+    {% for item in items %}
     <div class="record-container">
         <div class="info-container">
-            <img src="{% static "" %}" alt="">
+            <img src="{{ item.product_id.image }}" alt="">
             <div class="info">
-                <h3>کارامل ماکیاتو</h3>
+                <h3>{{item.product_id.name}}</h3>
                 <br>
-                <span>۹۸۰۰۰ تومان</span>
+                <span> {{item.product_id.price}} تومان  </span>
             </div>
         </div>
         <div class="count-container">
@@ -47,7 +47,7 @@
     <br>
     <div class="total-price">
         <span>قابل پرداخت</span>
-        <span>۲۷۶۰۰۰ تومان</span>
+        <span>{{ total }} تومان</span>
     </div>
     <br><br>
     <div class="buttons-container">

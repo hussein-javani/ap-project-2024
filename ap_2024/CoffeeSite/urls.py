@@ -21,9 +21,10 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'), # ok
     path('signup/', views.signup_view, name='signup'), # ok
     path('test/history/', tests.test_history, name='history'),
-    path('test/cart/', tests.test_cart, name='cart'),
+    path('cart/', views.cart_view, name='cart'), #ok
     path('test/admin/stats', tests.test_admin_stats, name='stats'),
     path('admin/storage', views.storage_view, name='storage'), # ok
     path('admin/addproduct', views.add_product_view, name='addproduct'), #ok
     path('test/admin/', tests.test_redirect_stats, name="redirect-stats"),
+    path('add-to-cart', views.add_to_cart_view , name="add-to-cart"),
 ]

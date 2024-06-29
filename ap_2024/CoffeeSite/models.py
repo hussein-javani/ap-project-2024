@@ -65,7 +65,7 @@ class Orders(models.Model) :
     username = models.CharField(max_length=255)
     is_takeout = models.BooleanField(default= True) # is 1 if the order is take out and 0 if not. 
     date = models.DateField(auto_created=True , default= timezone.now)
-    
+    open = models.BooleanField(default=True)
         
     def calculate_overall_price(self):
         total_price = sum(
