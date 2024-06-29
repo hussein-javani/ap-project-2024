@@ -15,7 +15,7 @@
         <button class="sidebar-opener" onclick="openSidebar()"> <img class="open" src="{% static "img/icons/open-menu.svg" %}" alt=""> <img class="close" src="{% static "img/icons/close.svg" %}" alt=""> </button>
         <h3>پنل مدیریت فروشگاه</h3>
         <div class="spacer"></div>
-        <a href="#logout">خروج <img src="{% static "img/icons/exit.svg" %}" alt=""></a>
+        <a href="{% url "logout" %}">خروج <img src="{% static "img/icons/exit.svg" %}" alt=""></a>
     </div>
 
     <div class="admin-container">

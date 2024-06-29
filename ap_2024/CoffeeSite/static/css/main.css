@@ -191,7 +191,7 @@ a, button{
     /* padding-top: 0.3vw; */
 }
 
-form{
+.bordered-form{
     padding: 3vw;
     border: rgb(6, 105, 6) solid 0.2vw;
     border-radius: 1vw;
@@ -337,13 +337,20 @@ form .submit-container a{
     margin-top: 0.5vw;
     font-size: 1vw;
 }
-.container.cart-product .record-container .update-product{
-    width: auto;
-    background-color: blue;
+.update-product{
+    width: 7vw !important;
+    background-color: blue !important;
+    font-size: 1vw !important;
 }
 .delivery-container{
     padding: 3vw 0;
     border-bottom: black solid 0.2vw;
+}
+.delivery-container input{
+    margin: 0;
+}
+.delivery-container h2{
+    text-align: right;
 }
 .total-price{
     display: flex;

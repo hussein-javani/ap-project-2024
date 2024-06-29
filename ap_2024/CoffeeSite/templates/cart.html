@@ -51,20 +51,24 @@
     </form>
     {% endfor %}
 
-    <div class="delivery-container">
+    <form method="POST" action="{% url "takeout" %}" class="delivery-container">
+        {% csrf_token %}
         <h2>نحوه دریافت سفارش</h2>
         <br>
         <span>
-            <input type="radio" name="takeout" value="0">
+            <input type="radio" name="takeout" value="0" {% if is_takeout %}  {% else %} checked="checked" {% endif %}>
             <span>دریافت حضوری</span>
         </span>
         <br>
         <br>
         <span>
-            <input type="radio" name="takeout" value="1" checked="checked">
+            <input type="radio" name="takeout" value="1" {% if is_takeout %}  checked="checked"{% else %}  {% endif %}>
+            <input type="hidden" name="order-id" value="{{ order_id }}">
             <span>  ارسال به آدرس شما   <span style="color: grey;"> هزینه ارسال ۲۰ هزار تومان </span>  </span>
+            <br><br>
+            <input type="submit" value="به روز رسانی" class="update-product">
         </span>
-    </div>
+    </form>
     <br>
     <div class="total-price">
         <span>قابل پرداخت</span>

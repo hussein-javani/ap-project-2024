@@ -180,9 +180,9 @@ def cart_view(request, message=""):
     total_price = 0
     for item in items:
         item.product_id.image = str(item.product_id.image).replace("CoffeeSite", "")
-        total_price += item.product_id.price*item.quantity
+        total_price += item.product_id.price*item.quantity + 20000*item.order_id.is_takeout
     
-    return render(request, "cart.html", {"items":items, "total":total_price, "message":message})
+    return render(request, "cart.html", {"items":items, "total":total_price, "message":message, "order_id":item.order_id.order_id, "is_takeout":item.order_id.is_takeout})
 
 @login_required(login_url="login")
 def add_to_cart_view(request):
@@ -221,3 +221,14 @@ def update_product_view(request):
     item.save()
     return cart_view(request, "تعداد محصول با موفقیت تغییر کرد")
     
+@login_required(login_url="login")
+@require_POST
+def take_out_view(request):
+    order = Orders.objects.get(order_id=request.POST.get("order-id"))
+    if request.POST.get("takeout") == "0":
+        order.is_takeout = False
+    else:
+        order.is_takeout = True
+    
+    order.save()
+    return cart_view(request, "نحوه ارسال با موفقیت تغییر کرد")

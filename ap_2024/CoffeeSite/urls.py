@@ -26,7 +26,9 @@ urlpatterns = [
     path('admin/storage', views.storage_view, name='storage'),
     path('admin/addproduct', views.add_product_view, name='addproduct'),
     path('test/admin/', tests.test_redirect_stats, name="redirect-stats"),
+    
     path('add-to-cart', views.add_to_cart_view , name="add-to-cart"),
     path('remove-product', views.remove_product_view , name="remove-product"),
     path('update-product', views.update_product_view , name="update-product"),
+    path('takeout', views.take_out_view , name="takeout"),
 ]
