@@ -26,6 +26,8 @@
     </div>
     {% endif %}
 
+    {% if items %}
+
 
     {% for item in items %}
     <form action="" method="POST" class="record-container">
@@ -40,7 +42,7 @@
         </div>
         <div class="count-container">
             <span>تعداد</span>
-            <input type="number" min="1" value="1">
+            <input type="number" name="quantity" min="1" value="{{item.quantity}}">
             <input type="hidden" name="item-id" value="{{ item.id }}">
             <br>
             <button type="submit" formaction="{% url "remove-product" %}">حذف</button>
@@ -53,13 +55,13 @@
         <h2>نحوه دریافت سفارش</h2>
         <br>
         <span>
-            <input type="radio" name="takeout" value="0" checked="checked">
+            <input type="radio" name="takeout" value="0">
             <span>دریافت حضوری</span>
         </span>
         <br>
         <br>
         <span>
-            <input type="radio" name="takeout" value="1">
+            <input type="radio" name="takeout" value="1" checked="checked">
             <span>  ارسال به آدرس شما   <span style="color: grey;"> هزینه ارسال ۲۰ هزار تومان </span>  </span>
         </span>
     </div>
@@ -73,6 +75,17 @@
         <button class="cancel">لغو سفارش</button>
         <button class="finalize">پرداخت و ثبت سفارش</button>
     </div>
+
+    {% else %}
+
+    <div class="cart-no-item">
+        <img src="{% static "img/icons/empty-box.svg" %}" alt="">
+        سبد خرید شما خالی است
+    </div>
+
+    {% endif %}
+
+
     
 </div>
 

@@ -4,7 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import *
-from django.views import View
+from django.views.decorators.http import require_POST
 from .forms import *
 from django.http import HttpResponse, HttpResponseBadRequest, HttpRequest
 
@@ -171,7 +171,7 @@ def add_product_view(request) :
         form = AddProductForm()
         return render(request , "add-product.html" , {"form" : form , "message" : "" , "error" : ""})
 
-
+@login_required(login_url="login")
 def cart_view(request, message=""):
     
     open_orders = Orders.objects.filter(username=request.user.username, open=True).all()
@@ -180,11 +180,11 @@ def cart_view(request, message=""):
     total_price = 0
     for item in items:
         item.product_id.image = str(item.product_id.image).replace("CoffeeSite", "")
-        total_price += item.product_id.price
+        total_price += item.product_id.price*item.quantity
     
     return render(request, "cart.html", {"items":items, "total":total_price, "message":message})
 
-
+@login_required(login_url="login")
 def add_to_cart_view(request):
     if request.method != "POST":
         return HttpResponseBadRequest("Bad request")
@@ -207,13 +207,17 @@ def add_to_cart_view(request):
 
     return cart_view(request, message="محصول با موفقیت به سبد خرید اضافه شد")
     
-
+@login_required(login_url="login")
+@require_POST
 def remove_product_view(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("request method error")
-    
     Orders_Product.objects.get(id=request.POST.get("item-id")).delete()
     return cart_view(request, "محصول با موفقیت از سبد خرید حذف شد")
 
+@login_required(login_url="login")
+@require_POST
 def update_product_view(request):
-    pass
+    item = Orders_Product.objects.get(id=request.POST.get("item-id"))
+    item.quantity = request.POST.get("quantity")
+    item.save()
+    return cart_view(request, "تعداد محصول با موفقیت تغییر کرد")
+    
