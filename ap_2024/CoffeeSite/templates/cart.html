@@ -11,8 +11,25 @@
 
 <div class="container cart-product">
     <h1>سبد خرید خرید</h1>
+
+
+    {% if message %}
+    <div class="message">
+        {{ message }}
+    </div>
+    {% endif %}
+
+
+    {% if error %}
+    <div class="error">
+        {{ error }}
+    </div>
+    {% endif %}
+
+
     {% for item in items %}
-    <div class="record-container">
+    <form action="" method="POST" class="record-container">
+        {% csrf_token %}
         <div class="info-container">
             <img src="{{ item.product_id.image }}" alt="">
             <div class="info">
@@ -24,10 +41,12 @@
         <div class="count-container">
             <span>تعداد</span>
             <input type="number" min="1" value="1">
+            <input type="hidden" name="item-id" value="{{ item.id }}">
             <br>
-            <button>حذف</button>
+            <button type="submit" formaction="{% url "remove-product" %}">حذف</button>
+            <button class="update-product" type="submit" formaction="{% url "update-product" %}">به روز رسانی</button>
         </div>
-    </div>
+    </form>
     {% endfor %}
 
     <div class="delivery-container">

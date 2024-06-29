@@ -16,15 +16,17 @@ from . import tests
 # ]
 
 urlpatterns = [
-    path('', views.home_view, name='home'), #ok
-    path('login/', views.login_view, name='login'), # ok
-    path('logout/', views.logout_view, name='logout'), # ok
-    path('signup/', views.signup_view, name='signup'), # ok
-    path('test/history/', tests.test_history, name='history'),
-    path('cart/', views.cart_view, name='cart'), #ok
-    path('test/admin/stats', tests.test_admin_stats, name='stats'),
-    path('admin/storage', views.storage_view, name='storage'), # ok
-    path('admin/addproduct', views.add_product_view, name='addproduct'), #ok
+    path('', views.home_view, name='home'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('signup/', views.signup_view, name='signup'),
+    path('test/history/', tests.test_history, name='history'), #TODO
+    path('cart/', views.cart_view, name='cart'),
+    path('test/admin/stats', tests.test_admin_stats, name='stats'), #TODO
+    path('admin/storage', views.storage_view, name='storage'),
+    path('admin/addproduct', views.add_product_view, name='addproduct'),
     path('test/admin/', tests.test_redirect_stats, name="redirect-stats"),
     path('add-to-cart', views.add_to_cart_view , name="add-to-cart"),
+    path('remove-product', views.remove_product_view , name="remove-product"),
+    path('update-product', views.update_product_view , name="update-product"),
 ]

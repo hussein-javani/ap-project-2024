@@ -21,6 +21,7 @@
             
                 <div class="nav-vertical-box">
                     <ul>
+                        <li><a href="/?vertical=all"> همه محصولات <img src="{% static "img/icons/left-arrow.svg" %}" alt=""> </a></li>
                         <li><a href="/?vertical=warm_drink"> نوشیدنی‌های گرم <img src="{% static "img/icons/left-arrow.svg" %}" alt=""> </a></li>
                         <li><a href="/?vertical=cold_drink"> نوشیدنی‌های سرد <img src="{% static "img/icons/left-arrow.svg" %}" alt=""> </a></li>
                         <li><a href="/?vertical=cake"> کیک‌ها <img src="{% static "img/icons/left-arrow.svg" %}" alt=""> </a></li>
@@ -37,7 +38,7 @@
 
                 <div class="nav-vertical-box">
                     <ul>
-                        <li><a href=""> سبد خرید <img src="{% static "img/icons/cart.svg" %}" alt=""></a></li>
+                        <li><a href="{% url "cart" %}"> سبد خرید <img src="{% static "img/icons/cart.svg" %}" alt=""></a></li>
                         <li><a href=""> سوابق خرید <img src="{% static "img/icons/history.svg" %}" alt=""></a></li>
                         <li><a href="{% url "logout" %}"> خروج <img src="{% static "img/icons/exit.svg" %}" alt=""></a></li>
                     </ul>

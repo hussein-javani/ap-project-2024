@@ -1,13 +1,12 @@
-from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate , logout
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from .models import *
 from django.views import View
 from .forms import *
-from django.http import HttpResponse, HttpResponseBadRequest
-from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseBadRequest, HttpRequest
 
 @login_required(login_url="login")
 def home_view(request):
@@ -19,15 +18,22 @@ def home_view(request):
             for prod in products:
                 prod.image = str(prod.image).replace("CoffeeSite/","")
             
+            
             return render(request, "home.html", {"title":"محصولات پر فروش", "products":products, "slideshow":True})
         
+
         if request.GET.get("vertical"):
             vertical = request.GET.get("vertical")
-            products = Products.objects.filter(vertical=vertical)
+
+            if vertical == "all":
+                products = Products.objects.all()
+            else:
+                products = Products.objects.filter(vertical=vertical)
+
             for prod in products:
                 prod.image = str(prod.image).replace("CoffeeSite/","")
             
-            vertical_names = {"warm_drink": "نوشیدنی‌های گرم", "cold_drink":"نوشیدنی‌های سرد", "cake":"کیک‌ها"}
+            vertical_names = {"warm_drink": "نوشیدنی‌های گرم", "cold_drink":"نوشیدنی‌های سرد", "cake":"کیک‌ها", "all":"همه محصولات"}
 
             return render(request, "home.html", {"title":vertical_names[vertical] , "products":products, "slideshow":False })
         
@@ -166,7 +172,7 @@ def add_product_view(request) :
         return render(request , "add-product.html" , {"form" : form , "message" : "" , "error" : ""})
 
 
-def cart_view(request):
+def cart_view(request, message=""):
     
     open_orders = Orders.objects.filter(username=request.user.username, open=True).all()
     items = Orders_Product.objects.filter(order_id__in=open_orders)
@@ -176,7 +182,7 @@ def cart_view(request):
         item.product_id.image = str(item.product_id.image).replace("CoffeeSite", "")
         total_price += item.product_id.price
     
-    return render(request, "cart.html", {"items":items, "total":total_price})
+    return render(request, "cart.html", {"items":items, "total":total_price, "message":message})
 
 
 def add_to_cart_view(request):
@@ -199,6 +205,15 @@ def add_to_cart_view(request):
     )
     order_product.save()
 
-    return redirect("cart")
+    return cart_view(request, message="محصول با موفقیت به سبد خرید اضافه شد")
     
 
+def remove_product_view(request):
+    if request.method != "POST":
+        return HttpResponseBadRequest("request method error")
+    
+    Orders_Product.objects.get(id=request.POST.get("item-id")).delete()
+    return cart_view(request, "محصول با موفقیت از سبد خرید حذف شد")
+
+def update_product_view(request):
+    pass
