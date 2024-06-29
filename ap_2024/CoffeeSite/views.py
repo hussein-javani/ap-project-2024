@@ -19,7 +19,7 @@ def home_view(request):
             for prod in products:
                 prod.image = str(prod.image).replace("CoffeeSite/","")
             
-            return render(request, "home.html", {"title":"محصولات پر فروش", "products":products, "slideshow":True })
+            return render(request, "home.html", {"title":"محصولات پر فروش", "products":products, "slideshow":True})
         
         if request.GET.get("vertical"):
             vertical = request.GET.get("vertical")

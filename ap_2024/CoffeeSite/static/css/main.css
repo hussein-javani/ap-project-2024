@@ -169,15 +169,14 @@ a, button{
     align-items: start;
 }
 .product .price-container .price{
-    font-weight: bold;
-    font-size: 2vw;
+    font-size: 1.4vw;
 }
 .product .product-bottom{
     display: flex;
     align-items: center;
     justify-content: space-between;
 }
-.product button{
+.product input[type="submit"]{
     border-radius: 100%;
     width: 4vw;
     height: 4vw;
@@ -185,7 +184,7 @@ a, button{
     border: none;
     background-color: rgb(6, 105, 6);
     color: white;
-    padding-top: 0.3vw;
+    /* padding-top: 0.3vw; */
 }
 
 form{

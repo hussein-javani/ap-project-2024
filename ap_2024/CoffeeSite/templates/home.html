@@ -55,7 +55,7 @@
 
     {% for product in products %}
 
-    <div class="product">
+    <form class="product" method="POST" action="">
       <img src="{{ product.image }}" alt="">
       <br>
       <h3>{{ product.name }}</h3>
@@ -64,9 +64,10 @@
           <span class="price">{{ product.price }}</span>
           <span> تومان</span>
         </div>
-        <button onclick="addtocart('{{product.id}}')">+</button>
+        <input type="hidden" name="product_id" value="{{ product.id }}">
+        <input type="submit" value="+">
       </div>
-    </div>
+    </form>
 
     {% endfor %}
 
