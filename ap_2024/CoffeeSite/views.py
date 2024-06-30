@@ -254,3 +254,35 @@ def take_out_view(request):
     # return cart_view(request, "نحوه ارسال با موفقیت تغییر کرد")
     return redirect("/cart/?msg=takeout_ok")
 
+@require_POST
+@login_required(login_url="login")
+def finalize_order_view(request):
+    try:
+        open_order = Orders.objects.get(username=request.user.username, open=True)
+    except:
+        return HttpResponse("ERROR: ORDER DOES NOT EXIST")
+    
+    open_order.open = False
+    open_order.save()
+    return HttpResponse("Order Confirmed")
+
+@require_POST
+@login_required(login_url="login")
+def delete_order_view(request):
+    try:
+        Orders.objects.get(username=request.user.username, open=True).delete()
+    except:
+        redirect("cart")
+
+
+def history_view(request):
+    orders = Orders.objects.filter(username=request.user.username, open=False)
+    order_items_dict = {}
+    for order in orders:
+        order.items = Orders_Product.objects.filter(order_id=order)
+        order.delivery_cost = order.is_takeout*20000
+        order.total = 0
+        for item in order.items:
+            order.total += item.product_id.price + order.delivery_cost
+    return render(request, "orderhistory.html", {"orders":orders,})
+

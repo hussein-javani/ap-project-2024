@@ -10,20 +10,21 @@
 
 <div class="history-container">
     <h1>سوابق خرید</h1>
-    {% for i in list %}
+    {% for order in orders %}
     <div class="record-container">
         <div class="container-header">
-            <span>شماره سفارش: ۱۲۳۴۵۶</span>
-            <span>تاریخ و ساعت: ۱/۱/۱/ ۱۲:۱۲</span>
+            <span>شناسه سفارش: {{order.order_id}}</span>
+            <span>تاریخ: {{order.date}}</span>
         </div>
         <div class="container-body">
             <ul>
-                <li><span>کارامل ماکیاتو</span><div class="spacer"></div><span>۹۸۰۰۰ تومان</span></li>
-                <li><span>کارامل ماکیاتو</span><div class="spacer"></div><span>۹۸۰۰۰ تومان</span></li>
-                <li><span>هزینه ارسال</span><div class="spacer"></div><span>۰ تومان</span></li>
+                {% for item in order.items %}
+                <li><span>{{ item.product_id.name }}</span><div class="spacer"></div><span>{{item.product_id.price}} تومان</span></li>
+                {% endfor %}
+                <li><span>هزینه ارسال</span><div class="spacer"></div><span>{{order.delivery_cost}} تومان</span></li>
             </ul>
     
-            <span>پرداخت شده: ۱۹۰۰۰۰ تومان</span>
+            <span>پرداخت شده: {{order.total}} تومان</span>
     
         </div>
         

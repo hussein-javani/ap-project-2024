@@ -70,15 +70,16 @@
         </span>
     </form>
     <br>
-    <div class="total-price">
+    <form class="total-price" method="POST">
+        {% csrf_token %}
         <span>قابل پرداخت</span>
         <span>{{ total }} تومان</span>
     </div>
     <br><br>
     <div class="buttons-container">
-        <button class="cancel">لغو سفارش</button>
-        <button class="finalize">پرداخت و ثبت سفارش</button>
-    </div>
+        <button type="submit" formaction="{% url "delete-order" %}" class="cancel">لغو سفارش</button>
+        <button type="submit" class="finalize" formaction="{% url "finalize-order" %}">پرداخت و ثبت سفارش</button>
+    </form>
 
     {% else %}
 

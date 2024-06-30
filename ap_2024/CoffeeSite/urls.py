@@ -20,7 +20,7 @@ urlpatterns = [
     path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
     path('signup/', views.signup_view, name='signup'),
-    path('test/history/', tests.test_history, name='history'), #TODO
+    path('history/', views.history_view, name='history'),
     path('cart/', views.cart_view, name='cart'),
     path('test/admin/stats', tests.test_admin_stats, name='stats'), #TODO
     path('admin/storage', views.storage_view, name='storage'),
@@ -31,4 +31,6 @@ urlpatterns = [
     path('remove-product', views.remove_product_view , name="remove-product"),
     path('update-product', views.update_product_view , name="update-product"),
     path('takeout', views.take_out_view , name="takeout"),
+    path('finalize-order', views.finalize_order_view , name="finalize-order"),
+    path('delete-order', views.delete_order_view , name="delete-order"),
 ]

@@ -39,7 +39,7 @@
                 <div class="nav-vertical-box">
                     <ul>
                         <li><a href="{% url "cart" %}"> سبد خرید <img src="{% static "img/icons/cart.svg" %}" alt=""></a></li>
-                        <li><a href=""> سوابق خرید <img src="{% static "img/icons/history.svg" %}" alt=""></a></li>
+                        <li><a href="{% url "history" %}"> سوابق خرید <img src="{% static "img/icons/history.svg" %}" alt=""></a></li>
                         <li><a href="{% url "logout" %}"> خروج <img src="{% static "img/icons/exit.svg" %}" alt=""></a></li>
                     </ul>
             
@@ -61,9 +61,9 @@
             </ul>
 
             <ul>
-                <li><a href="login">ورود/ ثبت نام</a></li>
-                <li><a href="">سبد خرید</a></li>
-                <li><a href="">سوابق خرید</a></li>
+                <li><a href="{% url "login" %}">ورود/ ثبت نام</a></li>
+                <li><a href="{% url "cart" %}">سبد خرید</a></li>
+                <li><a href="{% url "history" %}">سوابق خرید</a></li>
             </ul>
 
             <div class="spacer"></div>
