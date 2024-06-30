@@ -174,15 +174,15 @@ def add_product_view(request) :
 @login_required(login_url="login")
 def cart_view(request, message=""):
     
-    open_orders = Orders.objects.filter(username=request.user.username, open=True).all()
-    items = Orders_Product.objects.filter(order_id__in=open_orders)
+    open_order = Orders.objects.get(username=request.user.username, open=True)
+    items = Orders_Product.objects.filter(order_id=open_order)
     
     total_price = 0
     for item in items:
         item.product_id.image = str(item.product_id.image).replace("CoffeeSite", "")
         total_price += item.product_id.price*item.quantity + 20000*item.order_id.is_takeout
     
-    return render(request, "cart.html", {"items":items, "total":total_price, "message":message, "order_id":item.order_id.order_id, "is_takeout":item.order_id.is_takeout})
+    return render(request, "cart.html", {"items":items, "total":total_price, "message":message, "order_id":open_order.order_id, "is_takeout":open_order.is_takeout})
 
 @login_required(login_url="login")
 def add_to_cart_view(request):
