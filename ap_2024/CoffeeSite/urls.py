@@ -22,10 +22,10 @@ urlpatterns = [
     path('signup/', views.signup_view, name='signup'),
     path('history/', views.history_view, name='history'),
     path('cart/', views.cart_view, name='cart'),
-    path('test/admin/stats', tests.test_admin_stats, name='stats'), #TODO
+    path('admin/stats', views.stats_view, name='stats'),
+    path('admin/', views.redirect_stats, name="redirect-stats"),
     path('admin/storage', views.storage_view, name='storage'),
     path('admin/addproduct', views.add_product_view, name='addproduct'),
-    path('test/admin/', tests.test_redirect_stats, name="redirect-stats"),
     
     path('add-to-cart', views.add_to_cart_view , name="add-to-cart"),
     path('remove-product', views.remove_product_view , name="remove-product"),

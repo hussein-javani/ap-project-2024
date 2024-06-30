@@ -1,0 +1,20 @@
+{% extends "master.html" %}
+
+{% block title %}
+استارداکس
+{% endblock %}
+
+{% block content %}
+
+<div class="msg-container">
+    <h1>{{ message_title }}</h1>
+    <br>
+    <p>{{ message_body }}</p>
+    <br>
+    <a href="{% url "home" %}">بازگشت به صفحه اصلی</a>
+</div>
+<br>
+<br>
+<br><br>
+
+{% endblock %}

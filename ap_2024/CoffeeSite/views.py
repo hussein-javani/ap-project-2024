@@ -7,6 +7,7 @@ from .models import *
 from django.views.decorators.http import require_POST
 from .forms import *
 from django.http import HttpResponse, HttpResponseBadRequest, HttpRequest
+import datetime
 
 @login_required(login_url="login")
 def home_view(request):
@@ -99,6 +100,23 @@ def signup_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')  # Redirect to the homepage
+
+@login_required(login_url="login")
+def stats_view(request):
+    all_products = Products.objects.all()
+    if request.method == "GET":
+        return render(request, "stats.html", {"products":all_products})
+    if request.method == "POST":
+        data = {}
+        orders = Orders.objects.filter(date__range=[request.POST.get("from-date"), request.POST.get("to-date")], open="False")
+        products = Orders_Product.objects.filter( order_id__in=orders,  product_id=request.POST.get("product") )
+        #TODO range producs between 2 dates
+        return render(request, "stats.html", {"products":all_products})
+
+        
+
+
+
 
 @login_required(login_url="login")
 def storage_view(request) : 
@@ -260,11 +278,12 @@ def finalize_order_view(request):
     try:
         open_order = Orders.objects.get(username=request.user.username, open=True)
     except:
-        return HttpResponse("ERROR: ORDER DOES NOT EXIST")
+        return message_view(request, title="ارور ۴۰۰", body="عملیات موفقیت آمیز نبود")
     
     open_order.open = False
     open_order.save()
-    return HttpResponse("Order Confirmed")
+    return message_view(request, title="سفارش شما با موفقیت ثبت شد.", body="از اینکه استارداکس را انتخاب کردید سپاس گذاریم.")
+    
 
 @require_POST
 @login_required(login_url="login")
@@ -272,7 +291,7 @@ def delete_order_view(request):
     try:
         Orders.objects.get(username=request.user.username, open=True).delete()
     except:
-        redirect("cart")
+        return redirect("cart")
 
 
 def history_view(request):
@@ -285,4 +304,12 @@ def history_view(request):
         for item in order.items:
             order.total += item.product_id.price + order.delivery_cost
     return render(request, "orderhistory.html", {"orders":orders,})
+
+
+def redirect_stats(request):
+    return redirect("stats")
+
+
+def message_view(request, title, body):
+    return render(request, "message.html", {"message_title":title, "message_body":body,})
 

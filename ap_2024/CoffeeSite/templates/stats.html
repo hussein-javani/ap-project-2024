@@ -16,26 +16,32 @@ selected
 {% endblock %}
 
 {% block content %}
-<form action="" class="stat-form bordered-form">
+<form action="{% url "stats" %}" method="post" class="stat-form bordered-form">
+    {% csrf_token %}
     <div>
         <span>محصول</span>
         &nbsp;
         &nbsp;
-        <select name="" id="">
-            <option value="">موکا</option>
+        <select name="product" id="">
+            <option selected="selected" disabled>انتخاب کنید</option>
+
+            {% for product in products %}
+            <option value="{{product}}">{{product.name}}</option>
+            {% endfor %}
+
         </select>
         &nbsp;
         &nbsp;
         <span>از تاریخ</span>
         &nbsp;
         &nbsp;
-        <input type="date" name="" id="">
+        <input type="date" name="from-date" id="">
         &nbsp;
         &nbsp;
         <span>تا تاریخ</span>
         &nbsp;
         &nbsp;
-        <input type="date" name="" id="">
+        <input type="date" name="to-date" id="">
 
     </div>
     
