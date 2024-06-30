@@ -173,16 +173,33 @@ def add_product_view(request) :
 
 @login_required(login_url="login")
 def cart_view(request, message=""):
-    
-    open_order = Orders.objects.get(username=request.user.username, open=True)
-    items = Orders_Product.objects.filter(order_id=open_order)
+    msg_dict = {
+        "add_product_ok": "محصول به سبد خرید اضافه شد",
+        "remove_ok": "محصول از سبد خرید حذف شد",
+        "takeout_ok": "نحوه ارسال با موفقیت تغییر کرد",
+        "update_quantity_ok": "تعداد محصول با موفقیت تغییر کرد",
+    }
+    if request.GET.get("msg") in msg_dict.keys():
+        message = msg_dict[ request.GET.get("msg") ]
+    else:
+        message = ""
+
+    try:
+        open_order = Orders.objects.get(username=request.user.username, open=True)
+        items = Orders_Product.objects.filter(order_id=open_order)
+        order_id = open_order.order_id
+        is_takeout = open_order.is_takeout
+    except:
+        order_id = None
+        is_takeout = None
+        items = []
     
     total_price = 0
     for item in items:
         item.product_id.image = str(item.product_id.image).replace("CoffeeSite", "")
         total_price += item.product_id.price*item.quantity + 20000*item.order_id.is_takeout
     
-    return render(request, "cart.html", {"items":items, "total":total_price, "message":message, "order_id":open_order.order_id, "is_takeout":open_order.is_takeout})
+    return render(request, "cart.html", {"items":items, "total":total_price, "message":message, "order_id": order_id, "is_takeout": is_takeout})
 
 @login_required(login_url="login")
 def add_to_cart_view(request):
@@ -205,13 +222,15 @@ def add_to_cart_view(request):
     )
     order_product.save()
 
-    return cart_view(request, message="محصول با موفقیت به سبد خرید اضافه شد")
+    # return cart_view(request, message="محصول با موفقیت به سبد خرید اضافه شد")
+    return redirect("/cart/?msg=add_product_ok")
     
 @login_required(login_url="login")
 @require_POST
 def remove_product_view(request):
     Orders_Product.objects.get(id=request.POST.get("item-id")).delete()
-    return cart_view(request, "محصول با موفقیت از سبد خرید حذف شد")
+    # return cart_view(request, "محصول با موفقیت از سبد خرید حذف شد")
+    return redirect("/cart/?msg=remove_ok")
 
 @login_required(login_url="login")
 @require_POST
@@ -219,7 +238,8 @@ def update_product_view(request):
     item = Orders_Product.objects.get(id=request.POST.get("item-id"))
     item.quantity = request.POST.get("quantity")
     item.save()
-    return cart_view(request, "تعداد محصول با موفقیت تغییر کرد")
+    # return cart_view(request, "تعداد محصول با موفقیت تغییر کرد")
+    return redirect("/cart/?msg=update_quantity_ok")
     
 @login_required(login_url="login")
 @require_POST
@@ -231,4 +251,6 @@ def take_out_view(request):
         order.is_takeout = True
     
     order.save()
-    return cart_view(request, "نحوه ارسال با موفقیت تغییر کرد")
+    # return cart_view(request, "نحوه ارسال با موفقیت تغییر کرد")
+    return redirect("/cart/?msg=takeout_ok")
+

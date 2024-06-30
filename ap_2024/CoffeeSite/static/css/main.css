@@ -341,6 +341,7 @@ form .submit-container a{
     width: 7vw !important;
     background-color: blue !important;
     font-size: 1vw !important;
+    display: none;
 }
 .delivery-container{
     padding: 3vw 0;
