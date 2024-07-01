@@ -15,6 +15,9 @@ html, body{
 a, button{
     cursor: pointer;
 }
+:disabled{
+    background-color: grey;
+}
 
 .navbar{
     width: 100%;

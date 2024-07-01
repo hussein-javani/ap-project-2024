@@ -11,34 +11,65 @@ import datetime
 
 @login_required(login_url="login")
 def home_view(request):
-    if request.method == "GET":
-        if not request.GET.get("vertical"):
-            # TODO: getting most ordered products
+    
+    # default home view: most ordered products
+    if not request.GET.get("vertical"):
+        # TODO: getting most ordered products
 
-            products = Products.objects.all()[0:10]
-            for prod in products:
-                prod.image = str(prod.image).replace("CoffeeSite/","")
-                prod.price = f"{prod.price:,}"
+        products = Products.objects.all()[0:10]
+        title = "محصولات پر فروش"
+        slideshow = True
+
+    
+    # filtering based on vertical
+    if request.GET.get("vertical"):
+        vertical = request.GET.get("vertical")
+
+        if vertical == "all":
+            products = Products.objects.all()
+        else:
+            products = Products.objects.filter(vertical=vertical)
+
+        vertical_names = {  
+                            "warm_drink": "نوشیدنی‌های گرم",
+                            "cold_drink":"نوشیدنی‌های سرد",
+                            "cake":"کیک‌ها",
+                            "all":"همه محصولات",
+                        }
+        title = vertical_names[vertical]
+        slideshow = False
+    
+
+    # check if there is enough storage items
+    storage_flour = Storage.objects.get(name="flour")
+    storage_raw_coffee = Storage.objects.get(name="raw_coffee")
+    storage_sugar = Storage.objects.get(name="sugar")
+    storage_chocolate = Storage.objects.get(name="chocolate")
+
+
+        
+    for prod in products:
+        # prepare image urls for static load
+        prod.image = str(prod.image).replace("CoffeeSite/","")
+        # thousand seperator ( e.g.: 1,000,000 )
+        prod.price = f"{prod.price:,}"
+
+        if prod.flour > storage_flour.amount or \
+        prod.raw_coffee > storage_raw_coffee.amount or \
+        prod.chocolate > storage_chocolate.amount or \
+        prod.sugar > storage_sugar.amount :
             
-            
-            return render(request, "home.html", {"title":"محصولات پر فروش", "products":products, "slideshow":True})
+            prod.available = False
+        else:
+            prod.available = True
         
 
-        if request.GET.get("vertical"):
-            vertical = request.GET.get("vertical")
-
-            if vertical == "all":
-                products = Products.objects.all()
-            else:
-                products = Products.objects.filter(vertical=vertical)
-
-            for prod in products:
-                prod.image = str(prod.image).replace("CoffeeSite/","")
-            
-            vertical_names = {"warm_drink": "نوشیدنی‌های گرم", "cold_drink":"نوشیدنی‌های سرد", "cake":"کیک‌ها", "all":"همه محصولات"}
-
-            return render(request, "home.html", {"title":vertical_names[vertical] , "products":products, "slideshow":False })
         
+
+    
+        
+    return render(request, "home.html", {"title":title , "products":products, "slideshow":slideshow})
+    
 
 
 
@@ -253,25 +284,50 @@ def cart_view(request, message=""):
     return render(request, "cart.html", {"items":items, "total":f'{total_price:,}', "message":message, "order_id": order_id, "is_takeout": is_takeout})
 
 @login_required(login_url="login")
+@require_POST
 def add_to_cart_view(request):
-    if request.method != "POST":
-        return HttpResponseBadRequest("Bad request")
     
     #check if user has open order:
     try:
         open_order = Orders.objects.get(username=request.user.username, open=True)
+    #create new order :
     except:
         open_order = Orders(username=request.user.username)
         open_order.save()
     
+    # get requested product object
     product = Products.objects.get(id=request.POST.get("product_id"))
 
+    # getting storage items
+    storage_flour = Storage.objects.get(name="flour")
+    storage_raw_coffee = Storage.objects.get(name="raw_coffee")
+    storage_sugar = Storage.objects.get(name="sugar")
+    storage_chocolate = Storage.objects.get(name="chocolate")
+
+    # check if there is enough storage items
+    if product.flour > storage_flour.amount or \
+       product.raw_coffee > storage_raw_coffee.amount or \
+       product.chocolate > storage_chocolate.amount or \
+       product.sugar > storage_sugar.amount :
+        return HttpResponse("400 - Not enough storage items")
+        
+    # creating new order-product relation
     order_product =  Orders_Product(
         order_id = open_order,
         product_id = product,
         quantity = 1,
     )
     order_product.save()
+
+    # updating storage
+    storage_chocolate.amount -= product.chocolate
+    storage_sugar.amount -= product.sugar
+    storage_raw_coffee.amount -= product.raw_coffee
+    storage_flour.amount -= product.flour
+    storage_chocolate.save()
+    storage_sugar.save()
+    storage_raw_coffee.save()
+    storage_flour.save()
 
     return redirect("/cart/?msg=add_product_ok")
     
