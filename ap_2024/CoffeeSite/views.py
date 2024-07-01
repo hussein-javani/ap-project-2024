@@ -108,10 +108,33 @@ def stats_view(request):
         return render(request, "stats.html", {"products":all_products})
     if request.method == "POST":
         data = {}
+        
+        from_date = request.POST.get("from-date")
+        from_date_list = from_date.split("-")
+        to_date = request.POST.get("to-date")
+        to_date_list = to_date.split("-")
+
+        date_to_add = ""
+        i = 0
+        while True:
+            date_to_add = datetime.date(int(from_date_list[0]), int(from_date_list[1]), int(from_date_list[2])) + datetime.timedelta(i)
+            data[str(date_to_add)] = 0
+            if str(date_to_add) == to_date:
+                break
+            i+=1
+        
+        
         orders = Orders.objects.filter(date__range=[request.POST.get("from-date"), request.POST.get("to-date")], open="False")
-        products = Orders_Product.objects.filter( order_id__in=orders,  product_id=request.POST.get("product") )
-        #TODO range producs between 2 dates
-        return render(request, "stats.html", {"products":all_products})
+        products = Orders_Product.objects.filter( order_id__in=orders, product_id__id=request.POST.get("product") )
+        for product in products:
+            data[datetime.datetime.strftime(product.order_id.date, "%Y-%m-%d")] +=1
+        
+            
+            
+            
+            
+
+        return render(request, "stats.html", {"data_dict":data, "products":all_products, "data_product_name":products[0].product_id.name})
 
         
 

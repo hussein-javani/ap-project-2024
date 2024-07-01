@@ -16,6 +16,7 @@ selected
 {% endblock %}
 
 {% block content %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <form action="{% url "stats" %}" method="post" class="stat-form bordered-form">
     {% csrf_token %}
     <div>
@@ -26,7 +27,7 @@ selected
             <option selected="selected" disabled>انتخاب کنید</option>
 
             {% for product in products %}
-            <option value="{{product}}">{{product.name}}</option>
+            <option value="{{product.id}}">{{product.name}}</option>
             {% endfor %}
 
         </select>
@@ -51,7 +52,51 @@ selected
 </form>
 <br>
 <br>
-<canvas class="chart-canvas"></canvas>
+<!-- <canvas class="chart-canvas"></canvas> -->
+
+<canvas id="barChart" class="chart-canvas"></canvas>
+    <script>
+        // Retrieve the data dictionary from the Django context
+        const dataDict = {{ data_dict|safe }};
+
+        // Extract keys and values from the dictionary
+        const labels = Object.keys(dataDict);
+        const dataValues = Object.values(dataDict);
+
+        // Create the bar chart
+        const ctx = document.getElementById('barChart').getContext('2d');
+        const barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: ' فروش روزانه  {{ data_product_name }}',
+                    data: dataValues,
+                    backgroundColor: 'rgb(6, 105, 6)',
+                    borderColor: 'rgb(6, 105, 6)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'تاریخ'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'تعداد فروخته شده'
+                        },
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 
 <br><br><br>
 {% endblock %}

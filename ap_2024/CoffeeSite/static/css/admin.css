@@ -130,7 +130,7 @@ form.stat-form input[type="submit"]{
 .chart-canvas{
     width: 100%;
     padding: 2vw;
-    background-color: rgb(222, 222, 222);
+    background-color: white;
     border-radius: 1vw;
     border: grey solid 0.1vw;
 }
