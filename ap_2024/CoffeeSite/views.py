@@ -45,8 +45,6 @@ def home_view(request):
     storage_raw_coffee = Storage.objects.get(name="raw_coffee")
     storage_sugar = Storage.objects.get(name="sugar")
     storage_chocolate = Storage.objects.get(name="chocolate")
-
-
         
     for prod in products:
         # prepare image urls for static load
@@ -319,16 +317,6 @@ def add_to_cart_view(request):
     )
     order_product.save()
 
-    # updating storage
-    storage_chocolate.amount -= product.chocolate
-    storage_sugar.amount -= product.sugar
-    storage_raw_coffee.amount -= product.raw_coffee
-    storage_flour.amount -= product.flour
-    storage_chocolate.save()
-    storage_sugar.save()
-    storage_raw_coffee.save()
-    storage_flour.save()
-
     return redirect("/cart/?msg=add_product_ok")
     
 @login_required(login_url="login")
@@ -370,6 +358,35 @@ def finalize_order_view(request):
     
     open_order.open = False
     open_order.save()
+
+    storage_flour = Storage.objects.get(name="flour")
+    storage_raw_coffee = Storage.objects.get(name="raw_coffee")
+    storage_sugar = Storage.objects.get(name="sugar")
+    storage_chocolate = Storage.objects.get(name="chocolate")
+
+    order_products = Orders_Product.objects.filter(order_id=open_order)
+
+    for order_product in order_products:
+        product = order_product.product_id
+        # check if there is enough storage items
+        if  product.flour > storage_flour.amount and \
+            product.raw_coffee > storage_raw_coffee.amount and \
+            product.chocolate > storage_chocolate.amount and \
+            product.sugar > storage_sugar.amount :
+            return HttpResponse("400 - Not enough storage items")
+        
+        # updating storage
+        storage_chocolate.amount -= product.chocolate
+        storage_sugar.amount -= product.sugar
+        storage_raw_coffee.amount -= product.raw_coffee
+        storage_flour.amount -= product.flour
+
+
+    storage_chocolate.save()
+    storage_sugar.save()
+    storage_raw_coffee.save()
+    storage_flour.save()
+    
     return message_view(request, title="سفارش شما با موفقیت ثبت شد.", body="از اینکه استارداکس را انتخاب کردید سپاس گذاریم.")
     
 
@@ -401,4 +418,4 @@ def message_view(request, title, body):
 
 def restrict_admin_access(request):
     if not request.user.is_superuser:
-        return render(request, "message.html", {"message_title":"ارور ۴۰۳", "message_body":"شما به این صفحه دسترسی ندارید"})
+        return message_view(request, "ارور ۴۰۳", "شما به این صفحه دسترسی ندارید")
