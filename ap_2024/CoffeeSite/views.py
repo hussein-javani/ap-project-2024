@@ -18,6 +18,7 @@ def home_view(request):
             products = Products.objects.all()[0:10]
             for prod in products:
                 prod.image = str(prod.image).replace("CoffeeSite/","")
+                prod.price = f"{prod.price:,}"
             
             
             return render(request, "home.html", {"title":"محصولات پر فروش", "products":products, "slideshow":True})
@@ -103,6 +104,9 @@ def logout_view(request):
 
 @login_required(login_url="login")
 def stats_view(request):
+    if not request.user.is_superuser:
+        return render(request, "message.html", {"message_title":"ارور ۴۰۳", "message_body":"شما به این صفحه دسترسی ندارید"})
+
     all_products = Products.objects.all()
     if request.method == "GET":
         return render(request, "stats.html", {"products":all_products})
@@ -143,6 +147,9 @@ def stats_view(request):
 
 @login_required(login_url="login")
 def storage_view(request) : 
+    if not request.user.is_superuser:
+        return render(request, "message.html", {"message_title":"ارور ۴۰۳", "message_body":"شما به این صفحه دسترسی ندارید"})
+
     if request.method == 'POST':
         form = WarehouseManagementForm(request.POST)
         if form.is_valid():
@@ -188,6 +195,9 @@ def storage_view(request) :
 
 @login_required(login_url="login")
 def add_product_view(request) : 
+    if not request.user.is_superuser:
+        return render(request, "message.html", {"message_title":"ارور ۴۰۳", "message_body":"شما به این صفحه دسترسی ندارید"})
+
     if request.method == 'POST':
         form = AddProductForm(request.POST, request.FILES)
         if form.is_valid():
@@ -240,7 +250,7 @@ def cart_view(request, message=""):
         item.product_id.image = str(item.product_id.image).replace("CoffeeSite", "")
         total_price += item.product_id.price*item.quantity + 20000*item.order_id.is_takeout
     
-    return render(request, "cart.html", {"items":items, "total":total_price, "message":message, "order_id": order_id, "is_takeout": is_takeout})
+    return render(request, "cart.html", {"items":items, "total":f'{total_price:,}', "message":message, "order_id": order_id, "is_takeout": is_takeout})
 
 @login_required(login_url="login")
 def add_to_cart_view(request):
@@ -263,14 +273,13 @@ def add_to_cart_view(request):
     )
     order_product.save()
 
-    # return cart_view(request, message="محصول با موفقیت به سبد خرید اضافه شد")
     return redirect("/cart/?msg=add_product_ok")
     
 @login_required(login_url="login")
 @require_POST
 def remove_product_view(request):
     Orders_Product.objects.get(id=request.POST.get("item-id")).delete()
-    # return cart_view(request, "محصول با موفقیت از سبد خرید حذف شد")
+    
     return redirect("/cart/?msg=remove_ok")
 
 @login_required(login_url="login")
@@ -279,7 +288,7 @@ def update_product_view(request):
     item = Orders_Product.objects.get(id=request.POST.get("item-id"))
     item.quantity = request.POST.get("quantity")
     item.save()
-    # return cart_view(request, "تعداد محصول با موفقیت تغییر کرد")
+    
     return redirect("/cart/?msg=update_quantity_ok")
     
 @login_required(login_url="login")
@@ -292,7 +301,7 @@ def take_out_view(request):
         order.is_takeout = True
     
     order.save()
-    # return cart_view(request, "نحوه ارسال با موفقیت تغییر کرد")
+    
     return redirect("/cart/?msg=takeout_ok")
 
 @require_POST
@@ -311,15 +320,13 @@ def finalize_order_view(request):
 @require_POST
 @login_required(login_url="login")
 def delete_order_view(request):
-    try:
-        Orders.objects.get(username=request.user.username, open=True).delete()
-    except:
-        return redirect("cart")
+    
+    Orders.objects.get(username=request.user.username, open=True).delete()
+    return redirect("cart")
 
 
 def history_view(request):
     orders = Orders.objects.filter(username=request.user.username, open=False)
-    order_items_dict = {}
     for order in orders:
         order.items = Orders_Product.objects.filter(order_id=order)
         order.delivery_cost = order.is_takeout*20000
@@ -336,3 +343,6 @@ def redirect_stats(request):
 def message_view(request, title, body):
     return render(request, "message.html", {"message_title":title, "message_body":body,})
 
+def restrict_admin_access(request):
+    if not request.user.is_superuser:
+        return render(request, "message.html", {"message_title":"ارور ۴۰۳", "message_body":"شما به این صفحه دسترسی ندارید"})

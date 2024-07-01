@@ -23,8 +23,8 @@ selected
         <span>محصول</span>
         &nbsp;
         &nbsp;
-        <select name="product" id="">
-            <option selected="selected" disabled>انتخاب کنید</option>
+        <select name="product" id="" required>
+            <option selected="selected" disabled selected value="">انتخاب کنید</option>
 
             {% for product in products %}
             <option value="{{product.id}}">{{product.name}}</option>
@@ -36,13 +36,13 @@ selected
         <span>از تاریخ</span>
         &nbsp;
         &nbsp;
-        <input type="date" name="from-date" id="">
+        <input type="date" name="from-date" id="" required>
         &nbsp;
         &nbsp;
         <span>تا تاریخ</span>
         &nbsp;
         &nbsp;
-        <input type="date" name="to-date" id="">
+        <input type="date" name="to-date" id="" required>
 
     </div>
     
