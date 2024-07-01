@@ -296,25 +296,19 @@ def add_to_cart_view(request):
     # get requested product object
     product = Products.objects.get(id=request.POST.get("product_id"))
 
-    # getting storage items
-    storage_flour = Storage.objects.get(name="flour")
-    storage_raw_coffee = Storage.objects.get(name="raw_coffee")
-    storage_sugar = Storage.objects.get(name="sugar")
-    storage_chocolate = Storage.objects.get(name="chocolate")
+    # check if the product is already added to cart
+    try:
+        order_product = Orders_Product.objects.get(order_id=open_order, product_id=product)
+        order_product.quantity += 1
 
-    # check if there is enough storage items
-    if product.flour > storage_flour.amount or \
-       product.raw_coffee > storage_raw_coffee.amount or \
-       product.chocolate > storage_chocolate.amount or \
-       product.sugar > storage_sugar.amount :
-        return HttpResponse("400 - Not enough storage items")
-        
     # creating new order-product relation
-    order_product =  Orders_Product(
-        order_id = open_order,
-        product_id = product,
-        quantity = 1,
-    )
+    except:
+        order_product =  Orders_Product(
+            order_id = open_order,
+            product_id = product,
+            quantity = 1,
+        )
+        
     order_product.save()
 
     return redirect("/cart/?msg=add_product_ok")
@@ -369,17 +363,17 @@ def finalize_order_view(request):
     for order_product in order_products:
         product = order_product.product_id
         # check if there is enough storage items
-        if  product.flour > storage_flour.amount and \
-            product.raw_coffee > storage_raw_coffee.amount and \
-            product.chocolate > storage_chocolate.amount and \
-            product.sugar > storage_sugar.amount :
+        if  product.flour * order_product.quantity > storage_flour.amount and \
+            product.raw_coffee * order_product.quantity > storage_raw_coffee.amount and \
+            product.chocolate * order_product.quantity > storage_chocolate.amount and \
+            product.sugar * order_product.quantity > storage_sugar.amount :
             return HttpResponse("400 - Not enough storage items")
         
         # updating storage
-        storage_chocolate.amount -= product.chocolate
-        storage_sugar.amount -= product.sugar
-        storage_raw_coffee.amount -= product.raw_coffee
-        storage_flour.amount -= product.flour
+        storage_chocolate.amount -= product.chocolate * order_product.quantity
+        storage_sugar.amount -= product.sugar * order_product.quantity
+        storage_raw_coffee.amount -= product.raw_coffee * order_product.quantity
+        storage_flour.amount -= product.flour * order_product.quantity
 
 
     storage_chocolate.save()
