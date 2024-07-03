@@ -4,6 +4,7 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import *
+from django.db.models import Sum
 from django.views.decorators.http import require_POST
 from .forms import *
 from django.http import HttpResponse, HttpResponseBadRequest, HttpRequest
@@ -16,7 +17,11 @@ def home_view(request):
     if not request.GET.get("vertical"):
         # TODO: getting most ordered products
 
-        products = Products.objects.all()[0:10]
+        products = Products.objects.all()
+        
+        products = Products.objects.annotate(total_count=Sum('orders_product__quantity'))
+        products = products.order_by('-total_count')[0:10]
+        
         title = "محصولات پر فروش"
         slideshow = True
 
@@ -382,7 +387,7 @@ def finalize_order_view(request):
     storage_raw_coffee.save()
     storage_flour.save()
     
-    return message_view(request, title="سفارش شما با موفقیت ثبت شد.", body="از اینکه استارداکس را انتخاب کردید سپاس گذاریم.")
+    return message_view(request, title="سفارش شما با موفقیت ثبت شد.", body="از اینکه استارداکس را انتخاب کردید سپاس گزاریم.")
     
 
 @require_POST
@@ -392,7 +397,7 @@ def delete_order_view(request):
     Orders.objects.get(username=request.user.username, open=True).delete()
     return redirect("cart")
 
-
+@login_required(login_url="login")
 def history_view(request):
     orders = Orders.objects.filter(username=request.user.username, open=False)
     for order in orders:
