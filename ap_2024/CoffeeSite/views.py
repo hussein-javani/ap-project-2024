@@ -277,7 +277,8 @@ def cart_view(request, message=""):
     total_price = 0
     for item in items:
         item.product_id.image = str(item.product_id.image).replace("CoffeeSite", "")
-        total_price += item.product_id.price*item.quantity + 20000*item.order_id.is_takeout
+        total_price += item.product_id.price*item.quantity 
+    total_price + 20000*is_takeout
     
     return render(request, "cart.html", {"items":items, "total":f'{total_price:,}', "message":message, "order_id": order_id, "is_takeout": is_takeout})
 
@@ -399,7 +400,8 @@ def history_view(request):
         order.delivery_cost = order.is_takeout*20000
         order.total = 0
         for item in order.items:
-            order.total += item.product_id.price + order.delivery_cost
+            order.total += item.product_id.price
+        order.totla += order.delivery_cost
     return render(request, "orderhistory.html", {"orders":orders,})
 
 
