@@ -417,6 +417,6 @@ def redirect_stats(request):
 def message_view(request, title, body):
     return render(request, "message.html", {"message_title":title, "message_body":body,})
 
-def restrict_admin_access(request):
-    if not request.user.is_superuser:
-        return message_view(request, "ارور ۴۰۳", "شما به این صفحه دسترسی ندارید")
+
+
+
